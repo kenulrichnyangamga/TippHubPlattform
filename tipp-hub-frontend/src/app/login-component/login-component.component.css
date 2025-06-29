@@ -1,0 +1,11 @@
+body {
+  background: linear-gradient(to right, #1e3c72, #2a5298);
+}
+
+.container {
+  max-width: 500px;
+}
+
+.shadow {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
