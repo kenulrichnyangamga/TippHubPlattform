@@ -1,34 +1,12 @@
 import { Component } from '@angular/core';
-import {
-  trigger,
-  style,
-  transition,
-  animate,
-  keyframes
-} from '@angular/animations';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login-component',
   standalone: true,
   imports: [FormsModule, RouterModule, CommonModule],
-  animations: [
-    trigger('bounceIn', [
-      transition(':enter', [
-        animate(
-          '0.8s ease-out',
-          keyframes([
-            style({ opacity: 0, transform: 'translateY(100px)', offset: 0 }),
-            style({ opacity: 1, transform: 'translateY(-15px)', offset: 0.6 }),
-            style({ transform: 'translateY(5px)', offset: 0.8 }),
-            style({ transform: 'translateY(0)', offset: 1.0 })
-          ])
-        )
-      ])
-    ]),
-  ],
   templateUrl: './login-component.component.html',
   styleUrls: ['./login-component.component.css']
 })
@@ -39,12 +17,11 @@ export class LoginComponentComponent {
   public showResetForm = false;
   public resetEmail = '';
 
+  constructor(private router: Router) {}
+
   onLogin() {
-    console.log('Login-Daten:', {
-      username: this.username,
-      password: this.password,
-      email: this.email
-    });
+    // Rediriger directement vers le dashboard du THB sans vérification
+    this.router.navigate(['/thb-dashboard']);
   }
 
   onForgotPassword() {

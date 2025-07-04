@@ -1,16 +1,16 @@
 <div class="container mt-4">
   <h2 class="text-center mb-4">Registrierungsformular</h2>
 
-  <form>
+  <form (ngSubmit)="onRegister()">
     <!-- Geschlecht -->
     <label class="form-label">Geschlecht</label>
     <div class="mb-3">
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="geschlecht" value="Männlich" />
+        <input class="form-check-input" type="radio" name="geschlecht" [(ngModel)]="geschlecht" value="Männlich" />
         <label class="form-check-label">Männlich</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="geschlecht" value="Weiblich" />
+        <input class="form-check-input" type="radio" name="geschlecht" [(ngModel)]="geschlecht" value="Weiblich" />
         <label class="form-check-label">Weiblich</label>
       </div>
     </div>
@@ -18,45 +18,37 @@
     <!-- Vorname & Nachname -->
     <div class="row mb-3">
       <div class="col">
-        <input class="form-control" placeholder="Vorname" required />
+        <input class="form-control" placeholder="Vorname" [(ngModel)]="vorname" name="vorname" required />
       </div>
       <div class="col">
-        <input class="form-control" placeholder="Nachname" required />
+        <input class="form-control" placeholder="Nachname" [(ngModel)]="nachname" name="nachname" required />
       </div>
     </div>
 
     <!-- E-Mail -->
     <div class="mb-3">
-      <input class="form-control" type="email" placeholder="E-Mail-Adresse" required />
+      <input class="form-control" type="email" placeholder="E-Mail-Adresse" [(ngModel)]="email" name="email" required />
     </div>
 
     <!-- Telefonnummer -->
     <div class="mb-3">
-      <input class="form-control" type="tel" placeholder="Telefonnummer" required />
+      <input class="form-control" type="tel" placeholder="Telefonnummer" [(ngModel)]="telefon" name="telefon" required />
     </div>
 
     <!-- Geburtsdatum -->
     <label class="form-label">Geburtsdatum</label>
-    <div class="row mb-3">
-      <div class="col">
-        <select class="form-select"><option>Monat</option></select>
-      </div>
-      <div class="col">
-        <select class="form-select"><option>Tag</option></select>
-      </div>
-      <div class="col">
-        <select class="form-select"><option>Jahr</option></select>
-      </div>
+    <div class="mb-3">
+      <input type="date" class="form-control" [(ngModel)]="geburtsdatum" name="geburtsdatum" required />
     </div>
 
     <!-- Geburtsort -->
     <div class="mb-3">
-      <input class="form-control" placeholder="Geburtsort" required />
+      <input class="form-control" placeholder="Geburtsort" [(ngModel)]="geburtsort" name="geburtsort" required />
     </div>
 
     <!-- Nationalität -->
     <div class="mb-3">
-      <select class="form-select">
+      <select class="form-select" [(ngModel)]="nationalitaet" name="nationalitaet" required>
         <option selected disabled>Nationalität auswählen</option>
         <option>Deutsch</option>
         <option>Französisch</option>
@@ -68,48 +60,61 @@
     <label class="form-label">Adresse</label>
     <div class="row mb-3">
       <div class="col-6">
-        <input class="form-control" placeholder="Straße" />
+        <input class="form-control" placeholder="Straße" [(ngModel)]="strasse" name="strasse" />
       </div>
       <div class="col-6">
-        <input class="form-control" placeholder="Hausnummer" />
+        <input class="form-control" placeholder="Hausnummer" [(ngModel)]="hausnummer" name="hausnummer" />
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-4">
-        <input class="form-control" placeholder="PLZ" />
+        <input class="form-control" placeholder="PLZ" [(ngModel)]="plz" name="plz" />
       </div>
       <div class="col-8">
-        <input class="form-control" placeholder="Stadt" />
+        <input class="form-control" placeholder="Stadt" [(ngModel)]="stadt" name="stadt" />
       </div>
+    </div>
+
+    <!-- Passwort + Bestätigung -->
+    <div class="mb-3">
+      <input class="form-control" type="password" placeholder="Passwort" [(ngModel)]="password" name="password" required />
+    </div>
+    <div class="mb-3">
+      <input class="form-control" type="password" placeholder="Passwort bestätigen" [(ngModel)]="confirmPassword" name="confirmPassword" required />
+    </div>
+
+    <div *ngIf="passwordMismatch" class="alert alert-danger">
+      Passwörter stimmen nicht überein.
     </div>
 
     <!-- Status -->
     <label class="form-label">Status</label>
     <div class="mb-3">
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="status" value="PUS" (change)="onStatusChange('PUS')" />
+        <input class="form-check-input" type="radio" name="status" [(ngModel)]="status" value="PUS" />
         <label class="form-check-label">PUS</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="status" value="KWA" (change)="onStatusChange('KWA')" />
+        <input class="form-check-input" type="radio" name="status" [(ngModel)]="status" value="KWA" />
         <label class="form-check-label">KWA (Anbieter)</label>
       </div>
     </div>
 
-    <!-- Unternehmensformular (nur für KWA sichtbar) -->
+    <!-- Unternehmensformular -->
     <div *ngIf="status === 'KWA'" class="border p-3 mb-4">
       <h5>Unternehmensinformationen</h5>
       <div class="mb-3">
-        <input class="form-control" placeholder="Name des Unternehmens" />
+        <input class="form-control" placeholder="Name des Unternehmens" [(ngModel)]="firmaName" name="firmaName" />
       </div>
       <div class="mb-3">
-        <input class="form-control" placeholder="Branche" />
+        <input class="form-control" placeholder="Branche" [(ngModel)]="branche" name="branche" />
       </div>
       <div class="mb-3">
-        <input class="form-control" placeholder="Adresse des Unternehmens" />
+        <input class="form-control" placeholder="Adresse des Unternehmens" [(ngModel)]="firmaAdresse" name="firmaAdresse" />
       </div>
     </div>
 
+    <!-- Button -->
     <button class="btn btn-primary w-100">Registrieren</button>
   </form>
 </div>

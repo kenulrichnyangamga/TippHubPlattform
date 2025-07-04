@@ -1,11 +1,11 @@
-<div class="container" [@bounceIn]>
+<div class="container">
   <div class="row justify-content-center align-items-center vh-100">
     <div class="col-md-8 col-lg-6 bg-white p-5 rounded shadow">
 
       <h2 class="text-center mb-4">Anmeldung</h2>
 
       <!-- Login-Formular -->
-      <form *ngIf="!showResetForm" (ngSubmit)="onLogin()">
+      <form *ngIf="!showResetForm"  (ngSubmit)="onLogin()">
         <!-- Benutzername -->
         <div class="mb-3">
           <label for="nom" class="form-label">Benutzername :</label>
@@ -30,7 +30,8 @@
         </div>
 
         <!-- Login Button -->
-        <button type="submit" class="btn btn-primary w-100">Login</button>
+    
+        <button class="btn btn-primary w-100" [routerLink]="['/thb-dashboard']">Login</button>
 
         <!-- Registrierung -->
         <div class="text-center mt-4">
