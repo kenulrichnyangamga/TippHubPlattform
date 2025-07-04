@@ -1,0 +1,42 @@
+<div class="container mt-4">
+  <h3>Community-Verwaltung</h3>
+
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+  <div class="mb-3">
+    <label for="communitySelect" class="form-label">Community auswählen:</label>
+    <select [(ngModel)]="selectedCommunity" id="communitySelect" class="form-select">
+      <option value="">-- Community wählen --</option>
+      <option *ngFor="let c of communities" [value]="c.name">{{ c.name }}</option>
+    </select>
+  </div>
+
+  <div *ngIf="selectedCommunity">
+    <div class="card mb-3">
+      <div class="card-body" *ngIf="getSelectedCommunity() as c">
+        <h5 class="card-title">{{ c.name }}</h5>
+        <p><strong>Community-Manager:</strong> {{ c.manager || 'Kein LCB zugeordnet' }}</p>
+        <p class="fw-semibold">Mitglieder:</p>
+        <ul class="list-group">
+          <li *ngFor="let m of c.members" class="list-group-item">
+            {{ m.name }} ({{ m.status }})
+          </li>
+        </ul>
+        <button (click)="deleteCommunity(c.name)" class="btn btn-danger btn-sm mt-3">Community löschen</button>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <h5>Neue Community erstellen</h5>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <input type="text" [(ngModel)]="newCommunityName" placeholder="Name der Community" class="form-control" />
+    </div>
+    <div class="col-md-6">
+      <input type="text" [(ngModel)]="newCommunityManager" placeholder="Optionaler LCB-Name" class="form-control" />
+    </div>
+  </div>
+  <button (click)="createCommunity()" class="btn btn-success">Community erstellen</button>
+</div>

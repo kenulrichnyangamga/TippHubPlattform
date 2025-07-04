@@ -1,0 +1,9 @@
+.nav-link {
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.fw-bold {
+  background-color: #6f42c1;
+  border-radius: 5px;
+}

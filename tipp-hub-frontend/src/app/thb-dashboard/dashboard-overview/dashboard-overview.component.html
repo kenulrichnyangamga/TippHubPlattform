@@ -1,0 +1,15 @@
+<div class="container mt-4">
+  <h2 class="mb-4 text-dark fw-bold">THB Dashboard – Übersicht</h2>
+
+  <div class="row g-3">
+    <div class="col-md-4" *ngFor="let card of dashboardCards">
+      <div class="card text-center shadow-sm bg-light-purple">
+        <div class="card-body">
+          <h5 class="card-title">{{ card.title }}</h5>
+          <p class="card-text fs-3 fw-bold">{{ card.value }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

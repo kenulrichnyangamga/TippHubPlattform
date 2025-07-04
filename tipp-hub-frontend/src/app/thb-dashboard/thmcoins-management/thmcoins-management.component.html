@@ -1,0 +1,17 @@
+<div class="container mt-4">
+  <h2 class="mb-4 text-dark fw-bold">THMCoins-Verwaltung</h2>
+
+  <div class="card shadow-sm p-4 bg-light-purple">
+    <h5>Aktueller Preis für 1 THMCoin:</h5>
+    <p class="fs-3 fw-bold text-primary">€{{ currentRate.toFixed(2) }}</p>
+
+    <form (ngSubmit)="updateRate()">
+      <div class="mb-3">
+        <label for="newRate" class="form-label">Neuen Preis festlegen (€):</label>
+        <input type="number" step="0.01" class="form-control" id="newRate" [(ngModel)]="newRate" name="newRate" required />
+      </div>
+      <button class="btn btn-primary" type="submit">Aktualisieren</button>
+    </form>
+  </div>
+</div>
+

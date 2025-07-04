@@ -1,0 +1,57 @@
+<div class="container mt-4">
+  <h3>Einstellungen</h3>
+
+  <!-- Profil anzeigen -->
+  <div class="card mb-3 text-center">
+    <div class="card-body">
+      <img [src]="profileImageUrl" alt="Profilbild" class="rounded-circle mb-3" width="100" height="100" />
+      <h5 class="card-title">{{ username }}</h5>
+    </div>
+  </div>
+
+  <!-- Profil bearbeiten -->
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">Profil bearbeiten</h5>
+
+      <div class="mb-3">
+        <label for="username" class="form-label">Benutzername</label>
+        <input type="text" class="form-control" id="username" [(ngModel)]="username" />
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">E-Mail</label>
+        <input type="email" class="form-control" id="email" [(ngModel)]="email" disabled />
+      </div>
+
+      <div class="mb-3">
+        <label for="profileImage" class="form-label">Profilbild ändern</label>
+        <input type="file" class="form-control" (change)="onImageSelected($event)" />
+      </div>
+
+      <button class="btn btn-primary" (click)="saveProfile()">Speichern</button>
+    </div>
+  </div>
+
+  <!-- Sprache -->
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">Sprache wählen</h5>
+      <select class="form-select" [(ngModel)]="language">
+        <option value="de">Deutsch</option>
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Passwort -->
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">Passwort ändern</h5>
+      <input type="password" class="form-control mb-2" placeholder="Neues Passwort" [(ngModel)]="newPassword" />
+      <input type="password" class="form-control mb-2" placeholder="Passwort bestätigen" [(ngModel)]="confirmPassword" />
+      <button class="btn btn-warning" (click)="changePassword()">Passwort ändern</button>
+    </div>
+  </div>
+</div>

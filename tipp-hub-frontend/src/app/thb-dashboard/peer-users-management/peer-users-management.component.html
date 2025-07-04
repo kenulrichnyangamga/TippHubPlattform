@@ -1,0 +1,25 @@
+<div class="container mt-4">
+  <h3>Peer User Verwaltung</h3>
+
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+  <input type="text" [(ngModel)]="search" placeholder="Nutzer suchen" class="form-control mb-3" />
+
+  <select [(ngModel)]="selectedCommunity" class="form-select mb-3">
+    <option value="">Community wählen</option>
+    <option *ngFor="let c of communities" [value]="c.name">{{ c.name }}</option>
+  </select>
+
+ <div *ngFor="let user of getFilteredUsers()" class="card mb-2">
+    <div class="card-body">
+      <h5 class="card-title">{{ user.name }}</h5>
+      <p>Status: {{ user.status }}</p>
+      <button (click)="toggleUserStatus(user)" class="btn btn-sm btn-warning me-2">
+        {{ user.status === 'aktiv' ? 'Sperren' : 'Freigeben' }}
+      </button>
+      <button (click)="selectedUser = user; assignAsLCB()" class="btn btn-sm btn-primary" [disabled]="user.status === 'gesperrt'">
+        Als LCB zuordnen
+      </button>
+    </div>
+  </div>
+</div>
