@@ -21,7 +21,7 @@ export class LoginComponentComponent {
 
   onLogin() {
     // Rediriger directement vers le dashboard du THB sans vérification
-    this.router.navigate(['/thb-dashboard']);
+    this.router.navigate(['/dashboard-pus']);
   }
 
   onForgotPassword() {

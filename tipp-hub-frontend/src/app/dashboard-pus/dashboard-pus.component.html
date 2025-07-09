@@ -1,0 +1,105 @@
+<div class="container my-5">
+
+  <h2 class="fw-bold text-primary mb-4">Willkommen auf Ihrem Dashboard</h2>
+
+  <!-- 🔄 Community-Status -->
+  <div class="card border-info mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Community-Status</h5>
+
+      <div *ngIf="hasCommunity">
+        <p class="text-success mb-0">✅ Sie gehören bereits zu einer lokalen Community.</p>
+      </div>
+
+      <div *ngIf="!hasCommunity && !communityRequestSent && !showJoinForm">
+        <p class="text-warning">⚠️ Sie gehören derzeit keiner Community an.</p>
+        <button class="btn btn-outline-info" (click)="requestJoinCommunity()">Beitrittsanfrage senden</button>
+      </div>
+
+      <div *ngIf="showJoinForm && !communityRequestSent">
+        <form [formGroup]="joinForm" (ngSubmit)="envoyerDemande()">
+          <div class="row g-2">
+            <div class="col-md-6"><input class="form-control" formControlName="vorname" placeholder="Vorname"></div>
+            <div class="col-md-6"><input class="form-control" formControlName="nachname" placeholder="Nachname"></div>
+            <div class="col-md-6"><input class="form-control" formControlName="strasse" placeholder="Straße"></div>
+            <div class="col-md-3"><input class="form-control" formControlName="hausnummer" placeholder="Hausnummer"></div>
+            <div class="col-md-3"><input class="form-control" formControlName="plz" placeholder="PLZ"></div>
+            <div class="col-md-6"><input class="form-control" formControlName="stadt" placeholder="Stadt"></div>
+            <div class="col-12 text-end"><button class="btn btn-success" type="submit">Senden</button></div>
+          </div>
+        </form>
+      </div>
+
+      <div *ngIf="communityRequestSent">
+        <p class="text-info mb-0">📨 Ihre Anfrage wurde gesendet. Bitte warten Sie auf die Genehmigung.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 💰 Solde -->
+  <div class="card border-primary mb-4">
+    <div class="card-body d-flex justify-content-between align-items-center">
+      <div>
+        <h5 class="card-title mb-0">Ihr Guthaben in THMCoins</h5>
+        <p class="fs-4 text-success fw-bold">{{ soldeTHMCoins }} THMCoins</p>
+      </div>
+      <button class="btn btn-outline-primary" (click)="acheterTHMCoins()">THMCoins kaufen</button>
+    </div>
+  </div>
+
+  <!-- 📅 Veranstaltungen -->
+  <div class="card border-primary mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Bevorstehende Veranstaltungen</h5>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let event of events">
+          {{ event.title }}
+          <button class="btn btn-success btn-sm" (click)="inscrire(event)">Anmelden</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 🎯 Wettanfrage erstellen -->
+  <div class="card border-primary mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Wettanfrage erstellen</h5>
+      <form class="row g-3" (ngSubmit)="creerDemandePari()" [formGroup]="betForm">
+        <div class="col-md-12">
+          <input type="text" class="form-control" formControlName="match" placeholder="Spielname (RB Leipzig vs Frankfurt)">
+        </div>
+        <div class="col-md-6">
+          <input type="number" class="form-control" formControlName="montant" placeholder="Betrag (THMCoins)">
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control" formControlName="cote" placeholder="Vorgeschlagene Quote (z.B. 1:2)">
+        </div>
+        <div class="col-12 text-end">
+          <button type="submit" class="btn btn-primary">Erstellen</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 📬 Wettanfragen Ihrer Community -->
+  <div class="card border-primary mb-4" *ngIf="demandesDePari.length > 0">
+    <div class="card-body">
+      <h5 class="card-title">Wettanfragen Ihrer Community</h5>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let demande of demandesDePari">
+          <div>
+            <strong>{{ demande.username }}</strong> — {{ demande.match }}<br>
+            <small>{{ demande.montant }} vs {{ demande.cote }}</small>
+          </div>
+          <div>
+            <button class="btn btn-success btn-sm me-2" (click)="accepterPari(demande)">Akzeptieren</button>
+            <button class="btn btn-outline-primary btn-sm" (click)="negocierPari(demande)">Verhandeln</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+<a routerLink="/meine-wetten" class="btn btn-outline-secondary">Meine Wetten</a>
+
+</div>

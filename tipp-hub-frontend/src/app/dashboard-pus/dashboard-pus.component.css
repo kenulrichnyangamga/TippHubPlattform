@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e3d7ff, #b499f0); /* Violet clair et doux */
+  color: #2c2c2c;
+  padding: 20px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.6); /* Fond blanc semi-transparent */
+  border: none;
+  border-radius: 12px;
+  color: #2c2c2c;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+  border-radius: 20px;
+  color: white;
+  border: none;
+}
+
+.btn:hover {
+  background-color: #a27be7;
+}
+.btn-outline-primary{
+    background-color:hotpink;
+}

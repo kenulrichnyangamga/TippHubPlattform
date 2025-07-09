@@ -1,0 +1,36 @@
+<div class="container my-5">
+  <h2 class="fw-bold text-primary mb-4">Meine Wetten</h2>
+
+  <!-- Wetten que j'ai créées -->
+  <div class="card border-primary mb-4">
+    <div class="card-header bg-primary text-white fw-semibold">Erstellte Wetten</div>
+    <ul class="list-group list-group-flush" *ngIf="mesWetten.length > 0; else noCreated">
+      <li class="list-group-item" *ngFor="let wette of mesWetten">
+        <strong>Spiel:</strong> {{ wette.match }} |
+        <strong>Betrag:</strong> {{ wette.montant }} THMCoins |
+        <strong>Quote:</strong> {{ wette.cote }} |
+        <strong>Akzeptiert von:</strong> {{ wette.acceptePar || 'Niemand' }}
+      </li>
+    </ul>
+    <ng-template #noCreated>
+      <div class="p-3 text-muted">Keine erstellten Wetten gefunden.</div>
+    </ng-template>
+  </div>
+
+  <!-- Wetten que j'ai acceptées -->
+  <div class="card border-primary">
+    <div class="card-header bg-primary text-white fw-semibold">Akzeptierte Wetten</div>
+    <ul class="list-group list-group-flush" *ngIf="wettenAkzeptiert.length > 0; else noAccepted">
+      <li class="list-group-item" *ngFor="let wette of wettenAkzeptiert">
+        <strong>Spiel:</strong> {{ wette.match }} |
+        <strong>Von:</strong> {{ wette.username }} |
+        <strong>Betrag:</strong> {{ wette.montant }} THMCoins |
+        <strong>Quote:</strong> {{ wette.cote }}
+      </li>
+    </ul>
+    <ng-template #noAccepted>
+      <div class="p-3 text-muted">Keine akzeptierten Wetten gefunden.</div>
+    </ng-template>
+  </div>
+</div>
+

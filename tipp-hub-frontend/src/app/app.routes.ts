@@ -8,6 +8,8 @@ import { PeerUsersManagementComponent } from './thb-dashboard/peer-users-managem
 import { SettingsComponent } from './thb-dashboard/settings/settings.component';
 import { DashboardOverviewComponent } from './thb-dashboard/dashboard-overview/dashboard-overview.component';
 import { ThbDashboardLayoutComponent } from './thb-dashboard/thb-dashboard-layout/thb-dashboard-layout.component';
+import { DashboardPusComponent } from './dashboard-pus/dashboard-pus.component';
+import { MeineWettenComponent } from './meine-wetten/meine-wetten.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'startseite', pathMatch: 'full' },
@@ -25,7 +27,9 @@ export const routes: Routes = [
       { path: 'communities', component: CommunitiesManagementComponent },
       { path: 'settings', component: SettingsComponent }
        ]
-    }
+    },
+    {path: 'dashboard-pus', component: DashboardPusComponent},
+     { path: 'meine-wetten', component: MeineWettenComponent }
   
 ];
 
