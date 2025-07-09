@@ -1,0 +1,30 @@
+juil. 06, 2025 4:34:38 PM com.todoapp.MainVerticle lambda$start$0
+SEVERE: ❌ Database connection failed: Connections could not be acquired from the underlying database!
+juil. 06, 2025 5:56:22 PM com.todoapp.MainVerticle lambda$start$0
+SEVERE: ❌ Database connection failed: Connections could not be acquired from the underlying database!
+juil. 06, 2025 6:45:02 PM com.todoapp.MainVerticle lambda$start$0
+SEVERE: ❌ Database connection failed: Connections could not be acquired from the underlying database!
+juil. 06, 2025 6:59:02 PM com.todoapp.MainVerticle lambda$start$0
+SEVERE: ❌ Database connection failed: Connections could not be acquired from the underlying database!
+juil. 06, 2025 7:02:50 PM com.todoapp.MainVerticle lambda$start$0
+SEVERE: ❌ Database connection failed: Connections could not be acquired from the underlying database!
+juil. 06, 2025 7:04:22 PM com.todoapp.MainVerticle lambda$start$0
+SEVERE: ❌ Database connection failed: Connections could not be acquired from the underlying database!
+juil. 06, 2025 7:05:33 PM com.todoapp.MainVerticle lambda$start$0
+SEVERE: ❌ Database connection failed: Connections could not be acquired from the underlying database!
+juil. 06, 2025 7:06:48 PM com.todoapp.MainVerticle lambda$start$0
+SEVERE: ❌ Database connection failed: Connections could not be acquired from the underlying database!
+juil. 06, 2025 7:29:43 PM com.todoapp.MainVerticle lambda$start$0
+SEVERE: ❌ Database connection failed: Connections could not be acquired from the underlying database!
+juil. 06, 2025 7:30:39 PM com.todoapp.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 06, 2025 7:30:39 PM com.todoapp.MainVerticle lambda$setupRoutes$1
+INFO: 🚀 TippHub backend running on port 8888
+juil. 07, 2025 8:27:22 AM com.todoapp.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 07, 2025 8:27:22 AM com.todoapp.MainVerticle lambda$setupRoutes$1
+INFO: 🚀 TippHub backend running on port 8888
+juil. 09, 2025 5:17:03 PM com.todoapp.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 09, 2025 5:17:03 PM com.todoapp.MainVerticle lambda$setupRoutes$1
+INFO: 🚀 TippHub backend running on port 8888

@@ -1,15 +1,22 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../auth.service'; // ajuste le chemin si nécessaire
+import { HttpClientModule } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-register-component',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, HttpClientModule],
   templateUrl: './register-component.component.html',
-  styleUrls: ['./register-component.component.css']
+  styleUrls: ['./register-component.component.css'],
+  
 })
 export class RegisterComponentComponent {
+
+  constructor(private authService: AuthService) {}
+
   status: string = '';
   geschlecht = '';
   vorname = '';
@@ -37,14 +44,14 @@ export class RegisterComponentComponent {
   }
 
   onRegister() {
+
     if (this.password !== this.confirmPassword) {
-      this.passwordMismatch = true;
-      return;
-    }
+  this.passwordMismatch = true;
+  return;
+}
+this.passwordMismatch = false;
 
-    this.passwordMismatch = false;
-
-    const daten = {
+     const daten = {
       geschlecht: this.geschlecht,
       vorname: this.vorname,
       nachname: this.nachname,
@@ -68,7 +75,20 @@ export class RegisterComponentComponent {
       } : null
     };
 
-    console.log('Registrierungsdaten:', daten);
+      console.log('Registrierungsdaten:', daten);
+
+    const user = {
+      username: `${this.vorname}.${this.nachname}`,
+      email: this.email,
+      password: this.password,
+      role: this.status
+    };
+
+    this.authService.register(user).subscribe({
+      next: () => this.status = '✅ Enregistrement réussi !',
+      error: err => this.status = '❌ Erreur: ' + err.error
+    });
+    
     // TODO: envoyer au backend
   }
 }

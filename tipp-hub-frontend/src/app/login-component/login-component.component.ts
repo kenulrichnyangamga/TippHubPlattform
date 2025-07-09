@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login-component',
@@ -17,11 +18,25 @@ export class LoginComponentComponent {
   public showResetForm = false;
   public resetEmail = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   onLogin() {
-    // Rediriger directement vers le dashboard du THB sans vérification
-    this.router.navigate(['/dashboard-pus']);
+    const identifier = this.username || this.email;
+
+    if (!identifier || !this.password) {
+      alert('❌ Bitte geben Sie Benutzername/E-Mail und Passwort ein.');
+      return;
+    }
+
+    this.authService.login(identifier, this.password).subscribe({
+      next: (res: any) => {
+        alert(`✅ Willkommen ${res.username}`);
+        this.router.navigate(['/thb-dashboard']);
+      },
+      error: (err: any) => {
+        alert('❌ Login fehlgeschlagen: Benutzername oder Passwort falsch');
+      }
+    });
   }
 
   onForgotPassword() {
@@ -35,7 +50,7 @@ export class LoginComponentComponent {
   }
 
   submitReset() {
-    if (!this.resetEmail || this.resetEmail.trim() === '') {
+    if (!this.resetEmail.trim()) {
       alert('Bitte geben Sie Ihre E-Mail-Adresse ein.');
     } else {
       alert(`Ein Link zum Zurücksetzen wurde an ${this.resetEmail} gesendet.`);
