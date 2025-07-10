@@ -23,7 +23,7 @@ public class MainVerticle extends AbstractVerticle {
 
     private SQLClient jdbc;
     private static final Logger logger = Logger.getLogger(MainVerticle.class.getName());
-    
+
     public static void main(String[] args) {
     io.vertx.core.Vertx vertx = io.vertx.core.Vertx.vertx();
     vertx.deployVerticle(new MainVerticle());
@@ -47,7 +47,7 @@ public class MainVerticle extends AbstractVerticle {
             .put("url", "jdbc:mariadb://localhost:3300/tipphub")
             .put("driver_class", "org.mariadb.jdbc.Driver")
             .put("user", "root")
-            .put("password", "fragile")
+            .put("password", "kingsley")
             .put("max_pool_size", 50)
             .put("testConnectionOnCheckin", true );
 
@@ -80,8 +80,18 @@ public class MainVerticle extends AbstractVerticle {
         router.post("/api/thmcoins").handler(this::createTHMCoinTarif);
         router.put("/api/thmcoins").handler(this::updateTHMCoinTarif);
         router.get("/api/thmcoins").handler(this::getCurrentTHMCoinTarif);
+        router.get("/api/thmcoins").handler(this::buyTHMCoins);
+        router.post("/api/bets").handler(this::createBet);
+        router.post("/api/bets/:betId/accept").handler(this::acceptBet);
+        router.put("/api/bets/:betId/negotiate").handler(this::negotiateBetOdds);
+        router.post("/api/communities/:communityId/join").handler(this::joinCommunity);
+        router.delete("/api/communities/:communityId/leave").handler(this::leaveCommunity);
+        router.post("/api/events/:eventId/register").handler(this::registerToEvent);
+        router.delete("/api/events/:eventId/unregister").handler(this::unregisterFromEvent);
 
-        vertx.createHttpServer()
+
+
+      vertx.createHttpServer()
             .requestHandler(router)
             .listen(8888, res -> {
                 if (res.succeeded()) {
@@ -103,7 +113,12 @@ public class MainVerticle extends AbstractVerticle {
                .putHeader("Content-Type", "application/json")
                .end(tarif.encode());
         } else {
-            ctx.response().setStatusCode(404).end("❌ Kein Tarif gefunden");
+            //ctx.response().setStatusCode(404).end("❌ Kein Tarif gefunden");
+          ctx.response()
+            .putHeader("Content-Type", "application/json")
+            .setStatusCode(404)
+            .end(new JsonObject().put("error", "❌ Kein Tarif gefunden").encode());
+
         }
     });
 }
@@ -184,6 +199,10 @@ public class MainVerticle extends AbstractVerticle {
 }
 private void createTHMCoinTarif(RoutingContext ctx) {
     JsonObject body = ctx.getBodyAsJson();
+    if (body == null) {
+      ctx.response().setStatusCode(400).end(new JsonObject().put("error", "❌ Requête invalide (pas de JSON reçu)").encode());
+      return;
+    }
     String sql = "INSERT INTO thm_coins_tarif (preis_euro, preis_coins, gueltig_ab) VALUES (?, ?, ?)";
 
     jdbc.updateWithParams(sql, new JsonArray()
@@ -200,8 +219,13 @@ private void createTHMCoinTarif(RoutingContext ctx) {
 }
 private void updateTHMCoinTarif(RoutingContext ctx) {
     JsonObject body = ctx.getBodyAsJson();
-    String sql = "UPDATE thm_coins_tarif SET preis_euro = ?, preis_coins = ?, gueltig_ab = ? ORDER BY id DESC LIMIT 1";
-
+    if (body == null) {
+      ctx.response().setStatusCode(400).end(new JsonObject().put("error", "❌ Requête invalide (pas de JSON reçu)").encode());
+      return;
+    }
+    //String sql = "UPDATE thm_coins_tarif SET preis_euro = ?, preis_coins = ?, gueltig_ab = ? ORDER BY id DESC LIMIT 1";
+  //MariaDB / MySQL ne permet pas un ORDER BY ... LIMIT directement dans un UPDATE sans sous-requête.
+    String sql ="UPDATE thm_coins_tarif SET preis_euro = ?, preis_coins = ?, gueltig_ab = ? WHERE id = (SELECT id FROM (SELECT id FROM thm_coins_tarif ORDER BY id DESC LIMIT 1) AS t)";
     jdbc.updateWithParams(sql, new JsonArray()
         .add(body.getDouble("preis_euro"))
         .add(body.getInteger("preis_coins"))
@@ -214,5 +238,149 @@ private void updateTHMCoinTarif(RoutingContext ctx) {
         }
     });
 }
+
+  private void buyTHMCoins(RoutingContext ctx) {
+    JsonObject body = ctx.getBodyAsJson();
+    int userId = body.getInteger("user_id");
+    double amount = body.getDouble("amount");
+    // Mise à jour du solde dans thmcoin_wallet
+    String sql = "UPDATE thmcoin_wallet SET balance = balance + ? WHERE user_id = ?";
+    jdbc.updateWithParams(sql, new JsonArray().add(amount).add(userId), res -> {
+      if (res.succeeded()) {
+        // Enregistrer la transaction dans thmcoin_transfers (from_user est NULL car achat)
+        String transferSql = "INSERT INTO thmcoin_transfers (from_user, to_user, amount, description) VALUES (NULL, ?, ?, ?)";
+        jdbc.updateWithParams(transferSql, new JsonArray()
+          .add(userId)
+          .add(amount)
+          .add("Achat de " + amount + " THMCoins"), transferRes -> {
+          if (transferRes.succeeded()) {
+            ctx.response().setStatusCode(200).end("✅ Achat effectué.");
+          } else {
+            ctx.response().setStatusCode(500).end("❌ Erreur lors de l'enregistrement de la transaction.");
+          }
+        });
+      } else {
+        ctx.response().setStatusCode(500).end("❌ Erreur lors de l'achat.");
+      }
+    });
+  }
+
+  private void createBet(RoutingContext ctx) {
+    JsonObject body = ctx.getBodyAsJson();
+    int eventId = body.getInteger("event_id");
+    int createdBy = body.getInteger("created_by");
+    String choice = body.getString("choice");
+    double stake = body.getDouble("stake");
+    double odds = body.getDouble("odds");
+
+    String sql = "INSERT INTO bets (event_id, created_by, choice, stake, odds) VALUES (?, ?, ?, ?, ?)";
+
+    jdbc.updateWithParams(sql, new JsonArray()
+      .add(eventId)
+      .add(createdBy)
+      .add(choice)
+      .add(stake)
+      .add(odds), res -> {
+      if (res.succeeded()) {
+        ctx.response().setStatusCode(201).end("✅ Bet créé.");
+      } else {
+        ctx.response().setStatusCode(500).end("❌ Erreur lors de la création du bet.");
+      }
+    });
+  }
+  private void acceptBet(RoutingContext ctx) {
+    int betId = Integer.parseInt(ctx.pathParam("betId"));
+    JsonObject body = ctx.getBodyAsJson();
+    int acceptedBy = body.getInteger("accepted_by");
+    double acceptedOdds = body.getDouble("accepted_odds");
+
+    String sql = "INSERT INTO bet_acceptances (bet_id, accepted_by, accepted_odds) VALUES (?, ?, ?)";
+
+    jdbc.updateWithParams(sql, new JsonArray().add(betId).add(acceptedBy).add(acceptedOdds), res -> {
+      if (res.succeeded()) {
+        ctx.response().setStatusCode(201).end("✅ Bet accepté.");
+      } else {
+        ctx.response().setStatusCode(500).end("❌ Erreur: " + res.cause().getMessage());
+      }
+    });
+  }
+
+  private void negotiateBetOdds(RoutingContext ctx) {
+    int betId = Integer.parseInt(ctx.pathParam("betId"));
+    JsonObject body = ctx.getBodyAsJson();
+    double newOdds = body.getDouble("new_odds");
+
+    String sql = "UPDATE bets SET odds = ? WHERE bet_id = ? AND status = 'OPEN'";
+
+    jdbc.updateWithParams(sql, new JsonArray().add(newOdds).add(betId), res -> {
+      if (res.succeeded() && res.result().getUpdated() > 0) {
+        ctx.response().setStatusCode(200).end("✅ Gewinnquote mise à jour.");
+      } else {
+        ctx.response().setStatusCode(404).end("❌ Bet introuvable ou déjà accepté.");
+      }
+    });
+  }
+
+  private void joinCommunity(RoutingContext ctx) {
+    int communityId = Integer.parseInt(ctx.pathParam("communityId"));
+    JsonObject body = ctx.getBodyAsJson();
+    int userId = body.getInteger("user_id");
+
+    String sql = "INSERT INTO community_members (user_id, community_id) VALUES (?, ?)";
+
+    jdbc.updateWithParams(sql, new JsonArray().add(userId).add(communityId), res -> {
+      if (res.succeeded()) {
+        ctx.response().setStatusCode(201).end("✅ Inscription à la communauté réussie.");
+      } else {
+        ctx.response().setStatusCode(500).end("❌ Erreur: " + res.cause().getMessage());
+      }
+    });
+  }
+
+  private void leaveCommunity(RoutingContext ctx) {
+    int communityId = Integer.parseInt(ctx.pathParam("communityId"));
+    int userId = Integer.parseInt(ctx.request().getParam("user_id"));
+
+    String sql = "DELETE FROM community_members WHERE user_id = ? AND community_id = ?";
+
+    jdbc.updateWithParams(sql, new JsonArray().add(userId).add(communityId), res -> {
+      if (res.succeeded() && res.result().getUpdated() > 0) {
+        ctx.response().setStatusCode(200).end("✅ Tu as quitté la communauté.");
+      } else {
+        ctx.response().setStatusCode(404).end("❌ Pas d'appartenance trouvée.");
+      }
+    });
+  }
+
+  private void registerToEvent(RoutingContext ctx) {
+    int eventId = Integer.parseInt(ctx.pathParam("eventId"));
+    JsonObject body = ctx.getBodyAsJson();
+    int userId = body.getInteger("user_id");
+
+    String sql = "INSERT INTO event_registrations (user_id, event_id) VALUES (?, ?)";
+
+    jdbc.updateWithParams(sql, new JsonArray().add(userId).add(eventId), res -> {
+      if (res.succeeded()) {
+        ctx.response().setStatusCode(201).end("✅ Inscription à l'event réussie.");
+      } else {
+        ctx.response().setStatusCode(500).end("❌ Erreur: " + res.cause().getMessage());
+      }
+    });
+  }
+
+  private void unregisterFromEvent(RoutingContext ctx) {
+    int eventId = Integer.parseInt(ctx.pathParam("eventId"));
+    int userId = Integer.parseInt(ctx.request().getParam("user_id"));
+
+    String sql = "DELETE FROM event_participants WHERE user_id = ? AND event_id = ?";
+
+    jdbc.updateWithParams(sql, new JsonArray().add(userId).add(eventId), res -> {
+      if (res.succeeded() && res.result().getUpdated() > 0) {
+        ctx.response().setStatusCode(200).end("✅ Désinscription effectuée.");
+      } else {
+        ctx.response().setStatusCode(404).end("❌ Participation introuvable.");
+      }
+    });
+  }
 
 }
