@@ -13,6 +13,15 @@ CREATE TABLE users (
     role ENUM('THB', 'LCB', 'PUS', 'KWA') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+-- THMCOINS tarif que le THB cree ou modifie
+CREATE TABLE IF NOT EXISTS thm_coins_tarif (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+   preis_euro DECIMAL(10, 2) NOT NULL,
+  preis_coins INT NOT NULL,
+  gueltig_ab DATE NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 
 -- Communities
 CREATE TABLE communities (

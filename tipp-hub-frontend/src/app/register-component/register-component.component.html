@@ -1,16 +1,16 @@
 <div class="container mt-4">
   <h2 class="text-center mb-4">Registrierungsformular</h2>
 
-  <form (ngSubmit)="onRegister()">
+  <form (ngSubmit)="register()" #registerForm="ngForm">
     <!-- Geschlecht -->
     <label class="form-label">Geschlecht</label>
     <div class="mb-3">
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="geschlecht" [(ngModel)]="geschlecht" value="Männlich" />
+        <input class="form-check-input" type="radio" name="geschlecht" value="Männlich" />
         <label class="form-check-label">Männlich</label>
       </div>
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="geschlecht" [(ngModel)]="geschlecht" value="Weiblich" />
+        <input class="form-check-input" type="radio" name="geschlecht" value="Weiblich" />
         <label class="form-check-label">Weiblich</label>
       </div>
     </div>
@@ -18,37 +18,57 @@
     <!-- Vorname & Nachname -->
     <div class="row mb-3">
       <div class="col">
-        <input class="form-control" placeholder="Vorname" [(ngModel)]="vorname" name="vorname" required />
+        <input class="form-control" [(ngModel)]="user.firstName" name="firstName"placeholder="Vorname" required />
       </div>
       <div class="col">
-        <input class="form-control" placeholder="Nachname" [(ngModel)]="nachname" name="nachname" required />
+        <input class="form-control" [(ngModel)]="user.lastName" name="lastName" placeholder="Nachname" required />
       </div>
     </div>
 
     <!-- E-Mail -->
     <div class="mb-3">
-      <input class="form-control" type="email" placeholder="E-Mail-Adresse" [(ngModel)]="email" name="email" required />
+      <input class="form-control" type="email"  [(ngModel)]="user.email" name="email" placeholder="E-Mail-Adresse" required />
     </div>
+
 
     <!-- Telefonnummer -->
     <div class="mb-3">
-      <input class="form-control" type="tel" placeholder="Telefonnummer" [(ngModel)]="telefon" name="telefon" required />
+      <input class="form-control" type="tel" [(ngModel)]="user.phone" name="phone" placeholder="Telefonnummer" required />
     </div>
 
     <!-- Geburtsdatum -->
     <label class="form-label">Geburtsdatum</label>
-    <div class="mb-3">
-      <input type="date" class="form-control" [(ngModel)]="geburtsdatum" name="geburtsdatum" required />
+    <div class="row mb-3">
+      <div class="col">
+        <select class="form-select" [(ngModel)]="user.birthMonth" name="birthMonth"><option>Monat</option></select>
+      </div>
+      <div class="col">
+        <select class="form-select"><option>Tag</option></select>
+      </div>
+      <div class="col">
+        <select class="form-select"><option>Jahr</option></select>
+      </div>
     </div>
 
     <!-- Geburtsort -->
     <div class="mb-3">
-      <input class="form-control" placeholder="Geburtsort" [(ngModel)]="geburtsort" name="geburtsort" required />
+      <input class="form-control" placeholder="Geburtsort" required />
     </div>
+<!-- Mot de passe -->
+<div class="mb-3">
+  <input
+    class="form-control"
+    type="password"
+    placeholder="Mot de passe"
+    name="password"
+    [(ngModel)]="user.password"
+    required
+  />
+</div>
 
     <!-- Nationalität -->
     <div class="mb-3">
-      <select class="form-select" [(ngModel)]="nationalitaet" name="nationalitaet" required>
+      <select class="form-select">
         <option selected disabled>Nationalität auswählen</option>
         <option>Deutsch</option>
         <option>Französisch</option>
@@ -60,63 +80,48 @@
     <label class="form-label">Adresse</label>
     <div class="row mb-3">
       <div class="col-6">
-        <input class="form-control" placeholder="Straße" [(ngModel)]="strasse" name="strasse" />
+        <input class="form-control" placeholder="Straße" />
       </div>
       <div class="col-6">
-        <input class="form-control" placeholder="Hausnummer" [(ngModel)]="hausnummer" name="hausnummer" />
+        <input class="form-control" placeholder="Hausnummer" />
       </div>
     </div>
     <div class="row mb-3">
       <div class="col-4">
-        <input class="form-control" placeholder="PLZ" [(ngModel)]="plz" name="plz" />
+        <input class="form-control" placeholder="PLZ" />
       </div>
       <div class="col-8">
-        <input class="form-control" placeholder="Stadt" [(ngModel)]="stadt" name="stadt" />
+        <input class="form-control" placeholder="Stadt" />
       </div>
-    </div>
-
-    <!-- Passwort + Bestätigung -->
-    <div class="mb-3">
-      <input class="form-control" type="password" placeholder="Passwort" [(ngModel)]="password" name="password" required />
-    </div>
-    <div class="mb-3">
-      <input class="form-control" type="password" placeholder="Passwort bestätigen" [(ngModel)]="confirmPassword" name="confirmPassword" required />
-    </div>
-
-    <div *ngIf="passwordMismatch" class="alert alert-danger">
-      Passwörter stimmen nicht überein.
     </div>
 
     <!-- Status -->
     <label class="form-label">Status</label>
     <div class="mb-3">
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="status" [(ngModel)]="status" value="PUS" />
+        <input class="form-check-input" type="radio" name="status" value="PUS" (change)="onStatusChange('PUS')" />
         <label class="form-check-label">PUS</label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="status" [(ngModel)]="status" value="KWA" />
+        <input class="form-check-input" type="radio" name="status" value="KWA" (change)="onStatusChange('KWA')" />
         <label class="form-check-label">KWA (Anbieter)</label>
       </div>
     </div>
 
-    <!-- Unternehmensformular -->
+    <!-- Unternehmensformular (nur für KWA sichtbar) -->
     <div *ngIf="status === 'KWA'" class="border p-3 mb-4">
       <h5>Unternehmensinformationen</h5>
       <div class="mb-3">
-        <input class="form-control" placeholder="Name des Unternehmens" [(ngModel)]="firmaName" name="firmaName" />
+        <input class="form-control" placeholder="Name des Unternehmens" />
       </div>
       <div class="mb-3">
-        <input class="form-control" placeholder="Branche" [(ngModel)]="branche" name="branche" />
+        <input class="form-control" placeholder="Branche" />
       </div>
       <div class="mb-3">
-        <input class="form-control" placeholder="Adresse des Unternehmens" [(ngModel)]="firmaAdresse" name="firmaAdresse" />
+        <input class="form-control" placeholder="Adresse des Unternehmens" />
       </div>
     </div>
 
-  
-
-    <!-- Button -->
-    <button class="btn btn-primary w-100">Registrieren</button>
+    <button class="btn btn-primary w-100" type="submit">Registrieren</button>
   </form>
 </div>
