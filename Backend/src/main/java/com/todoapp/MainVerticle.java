@@ -1,6 +1,11 @@
 
 package com.todoapp;
 
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Promise;
@@ -13,10 +18,6 @@ import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 public class MainVerticle extends AbstractVerticle {
 
@@ -70,11 +71,15 @@ public class MainVerticle extends AbstractVerticle {
         router.route().handler(CorsHandler.create("*")
                 .allowedMethod(HttpMethod.POST)
                 .allowedMethod(HttpMethod.GET)
+                .allowedMethod(HttpMethod.PUT)
                 .allowedHeader("Content-Type"));
 
         router.get("/api/users").handler(this::getAllUsers);
         router.post("/api/register").handler(this::handleRegister);
         router.post("/api/login").handler(this::handleLogin);
+        router.post("/api/thmcoins").handler(this::createTHMCoinTarif);
+        router.put("/api/thmcoins").handler(this::updateTHMCoinTarif);
+        router.get("/api/thmcoins").handler(this::getCurrentTHMCoinTarif);
 
         vertx.createHttpServer()
             .requestHandler(router)
@@ -88,6 +93,21 @@ public class MainVerticle extends AbstractVerticle {
                 }
             });
     }
+    private void getCurrentTHMCoinTarif(RoutingContext ctx) {
+    String sql = "SELECT * FROM thm_coins_tarif ORDER BY gueltig_ab DESC LIMIT 1";
+
+    jdbc.query(sql, res -> {
+        if (res.succeeded() && !res.result().getRows().isEmpty()) {
+            JsonObject tarif = res.result().getRows().get(0);
+            ctx.response()
+               .putHeader("Content-Type", "application/json")
+               .end(tarif.encode());
+        } else {
+            ctx.response().setStatusCode(404).end("❌ Kein Tarif gefunden");
+        }
+    });
+}
+
 
     private void getAllUsers(RoutingContext ctx) {
         jdbc.query("SELECT user_id, username, role FROM users", res -> {
@@ -158,6 +178,39 @@ public class MainVerticle extends AbstractVerticle {
             }
         } else {
             ctx.response().setStatusCode(401).end("❌ User not found");
+        }
+    }
+    );
+}
+private void createTHMCoinTarif(RoutingContext ctx) {
+    JsonObject body = ctx.getBodyAsJson();
+    String sql = "INSERT INTO thm_coins_tarif (preis_euro, preis_coins, gueltig_ab) VALUES (?, ?, ?)";
+
+    jdbc.updateWithParams(sql, new JsonArray()
+        .add(body.getDouble("preis_euro"))
+        .add(body.getInteger("preis_coins"))
+        .add(body.getString("gueltig_ab")), res -> {
+
+        if (res.succeeded()) {
+            ctx.response().setStatusCode(201).end("✅ THMCoin Tarif erstellt.");
+        } else {
+            ctx.response().setStatusCode(500).end("❌ Fehler: " + res.cause().getMessage());
+        }
+    });
+}
+private void updateTHMCoinTarif(RoutingContext ctx) {
+    JsonObject body = ctx.getBodyAsJson();
+    String sql = "UPDATE thm_coins_tarif SET preis_euro = ?, preis_coins = ?, gueltig_ab = ? ORDER BY id DESC LIMIT 1";
+
+    jdbc.updateWithParams(sql, new JsonArray()
+        .add(body.getDouble("preis_euro"))
+        .add(body.getInteger("preis_coins"))
+        .add(body.getString("gueltig_ab")), res -> {
+
+        if (res.succeeded()) {
+            ctx.response().setStatusCode(200).end("✅ THMCoin Tarif aktualisiert.");
+        } else {
+            ctx.response().setStatusCode(500).end("❌ Fehler: " + res.cause().getMessage());
         }
     });
 }
