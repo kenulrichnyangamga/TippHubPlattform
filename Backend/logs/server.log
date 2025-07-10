@@ -44,3 +44,41 @@ juil. 10, 2025 12:20:44 PM com.todoapp.MainVerticle lambda$start$0
 INFO: ✅ Connected to TippHub database.
 juil. 10, 2025 12:20:44 PM com.todoapp.MainVerticle lambda$setupRoutes$1
 INFO: 🚀 TippHub backend running on port 8888
+Juli 10, 2025 8:20:14 PM com.todoapp.MainVerticle lambda$start$0
+SCHWERWIEGEND: ❌ Database connection failed: Connections could not be acquired from the underlying database!
+Juli 10, 2025 9:06:59 PM com.todoapp.MainVerticle lambda$start$0
+SCHWERWIEGEND: ❌ Database connection failed: Connections could not be acquired from the underlying database!
+Juli 10, 2025 9:12:42 PM com.todoapp.MainVerticle lambda$0
+SCHWERWIEGEND: ❌ Database connection failed: Connections could not be acquired from the underlying database!
+Juli 10, 2025 9:16:41 PM com.todoapp.MainVerticle lambda$0
+INFORMATION: ✅ Connected to TippHub database.
+Juli 10, 2025 9:16:41 PM com.todoapp.MainVerticle lambda$7
+INFORMATION: 🚀 TippHub backend running on port 8888
+Juli 10, 2025 9:26:18 PM com.todoapp.MainVerticle lambda$0
+INFORMATION: ✅ Connected to TippHub database.
+Juli 10, 2025 9:26:18 PM com.todoapp.MainVerticle lambda$7
+INFORMATION: 🚀 TippHub backend running on port 8888
+Juli 10, 2025 9:42:39 PM com.todoapp.MainVerticle lambda$0
+INFORMATION: ✅ Connected to TippHub database.
+Juli 10, 2025 9:42:39 PM com.todoapp.MainVerticle lambda$7
+INFORMATION: 🚀 TippHub backend running on port 8888
+Juli 10, 2025 9:57:20 PM com.todoapp.MainVerticle lambda$0
+INFORMATION: ✅ Connected to TippHub database.
+Juli 10, 2025 9:57:21 PM com.todoapp.MainVerticle lambda$7
+INFORMATION: 🚀 TippHub backend running on port 8888
+Juli 10, 2025 10:01:22 PM com.todoapp.MainVerticle lambda$0
+INFORMATION: ✅ Connected to TippHub database.
+Juli 10, 2025 10:01:22 PM com.todoapp.MainVerticle lambda$7
+INFORMATION: 🚀 TippHub backend running on port 8888
+Juli 10, 2025 10:03:47 PM com.todoapp.MainVerticle lambda$0
+INFORMATION: ✅ Connected to TippHub database.
+Juli 10, 2025 10:03:47 PM com.todoapp.MainVerticle lambda$8
+INFORMATION: 🚀 TippHub backend running on port 8888
+Juli 10, 2025 10:04:22 PM com.todoapp.MainVerticle lambda$0
+INFORMATION: ✅ Connected to TippHub database.
+Juli 10, 2025 10:04:23 PM com.todoapp.MainVerticle lambda$8
+INFORMATION: 🚀 TippHub backend running on port 8888
+Juli 10, 2025 10:17:40 PM com.todoapp.MainVerticle lambda$0
+INFORMATION: ✅ Connected to TippHub database.
+Juli 10, 2025 10:17:40 PM com.todoapp.MainVerticle lambda$15
+INFORMATION: 🚀 TippHub backend running on port 8888

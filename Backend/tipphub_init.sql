@@ -119,3 +119,16 @@ CREATE TABLE thmcoin_transfers (
     FOREIGN KEY (from_user) REFERENCES users(user_id) ON DELETE SET NULL,
     FOREIGN KEY (to_user) REFERENCES users(user_id) ON DELETE SET NULL
 );
+
+--Registrierung in einem Event
+CREATE TABLE event_registrations (
+    user_id INT,
+    event_id INT,
+    registered_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, event_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES events(event_id) ON DELETE CASCADE
+);
+
+--
+
