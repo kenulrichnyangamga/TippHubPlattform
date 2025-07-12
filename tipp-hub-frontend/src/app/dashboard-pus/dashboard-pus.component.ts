@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommunityService } from '../thb-dashboard/services/community.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { HttpClient } from '@angular/common/http'; // ✅ Ajouté
 
 @Component({
   selector: 'app-dashboard-pus',
@@ -29,13 +30,22 @@ export class DashboardPusComponent implements OnInit {
   joinForm: FormGroup;
 
   showJoinForm = false;
+  showBuyForm = false; // ✅ pour afficher/masquer le formulaire d'achat
+
+  buyOptions = [ // ✅ forfaits
+    { coins: 1, euros: 0.5 },
+    { coins: 10, euros: 4 },
+    { coins: 50, euros: 18 },
+    { coins: 100, euros: 30 }
+  ];
 
   mesWettenErstellt: any[] = [];
   mesWettenAkzeptiert: any[] = [];
 
   constructor(
     private fb: FormBuilder,
-    private communityService: CommunityService
+    private communityService: CommunityService,
+    private http: HttpClient // ✅ injection de HttpClient
   ) {
     this.betForm = this.fb.group({
       match: [''],
@@ -63,10 +73,6 @@ export class DashboardPusComponent implements OnInit {
     const users = this.communityService.getUsers();
     const user = users.find((u: any) => u.name === this.username);
     this.hasCommunity = !!user;
-
-    if (!user) {
-      //this.availableCommunities = this.communityService.getCommunities().map((c: any) => c.name);
-    }
   }
 
   requestJoinCommunity() {
@@ -97,7 +103,26 @@ export class DashboardPusComponent implements OnInit {
   }
 
   acheterTHMCoins() {
-    alert('Redirection vers la page d\'achat de THMCoins.');
+    this.showBuyForm = !this.showBuyForm; // ✅ toggle formulaire
+  }
+
+  acheterOption(option: any) {
+    const payload = {
+      username: this.username,
+      coins: option.coins,
+      euros: option.euros
+    };
+
+    this.http.post<any>('/api/coins/acheter', payload).subscribe({
+      next: (response) => {
+        this.soldeTHMCoins = response.nouveauSolde;
+        alert(`✅ Vous avez acheté ${option.coins} THMCoins pour ${option.euros} €.`);
+        this.showBuyForm = false;
+      },
+      error: () => {
+        alert('❌ Une erreur est survenue lors de l\'achat. Réessayez plus tard.');
+      }
+    });
   }
 
   inscrire(event: any) {
