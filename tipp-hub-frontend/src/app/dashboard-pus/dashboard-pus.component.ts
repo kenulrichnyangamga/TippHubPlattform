@@ -65,7 +65,7 @@ export class DashboardPusComponent implements OnInit {
     this.hasCommunity = !!user;
 
     if (!user) {
-      this.availableCommunities = this.communityService.getCommunities().map((c: any) => c.name);
+      //this.availableCommunities = this.communityService.getCommunities().map((c: any) => c.name);
     }
   }
 

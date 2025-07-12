@@ -1,17 +1,69 @@
 <div class="container mt-4">
   <h2 class="mb-4 text-dark fw-bold">THMCoins-Verwaltung</h2>
 
-  <div class="card shadow-sm p-4 bg-light-purple">
-    <h5>Aktueller Preis für 1 THMCoin:</h5>
-    <p class="fs-3 fw-bold text-primary">€{{ currentRate.toFixed(2) }}</p>
+  <!-- Liste des tarifs existants -->
+  <div class="card shadow-sm p-4 mb-4 bg-light-purple">
+    <h5 class="mb-3">Aktuelle Tarife:</h5>
+    <ul class="list-group">
+      <li 
+        *ngFor="let tarif of tarifs" 
+        class="list-group-item d-flex justify-content-between align-items-center"
+      >
+        <div>
+          <strong>{{ tarif.preis_coins }} Coins</strong> = €{{ tarif.preis_euro.toFixed(2) }}<br>
+          <small class="text-muted">Gültig ab: {{ tarif.gueltig_ab }}</small>
+        </div>
+        <button class="btn btn-outline-secondary btn-sm" (click)="editTarif(tarif)">Bearbeiten</button>
+        <button class="btn btn-outline-danger btn-sm" (click)="tarif.id ? deleteTarif(tarif.id) : null"
+        [disabled]="!tarif.id">Löschen</button>
+      </li>
+    </ul>
+  </div>
 
-    <form (ngSubmit)="updateRate()">
+  <!-- Formulaire de création -->
+  <div class="card shadow-sm p-4 mb-4 bg-light">
+    <h5 class="mb-3">Neuen Tarif erstellen</h5>
+    <form (ngSubmit)="createTarif()">
       <div class="mb-3">
-        <label for="newRate" class="form-label">Neuen Preis festlegen (€):</label>
-        <input type="number" step="0.01" class="form-control" id="newRate" [(ngModel)]="newRate" name="newRate" required />
+        <label for="preis_euro" class="form-label">Preis in Euro (€):</label>
+        <input type="number" step="0.01" class="form-control" id="preis_euro" [(ngModel)]="newTarif.preis_euro" name="preis_euro" required>
       </div>
-      <button class="btn btn-primary" type="submit">Aktualisieren</button>
+
+      <div class="mb-3">
+        <label for="preis_coins" class="form-label">Preis in Coins:</label>
+        <input type="number" class="form-control" id="preis_coins" [(ngModel)]="newTarif.preis_coins" name="preis_coins" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="gueltig_ab" class="form-label">Gültig ab:</label>
+        <input type="text" class="form-control" id="gueltig_ab" [(ngModel)]="newTarif.gueltig_ab" name="gueltig_ab" required>
+      </div>
+
+      <button class="btn btn-success" type="submit">Erstellen</button>
+    </form>
+  </div>
+
+  <!-- Formulaire de mise à jour (visible si un tarif est sélectionné) -->
+  <div *ngIf="selectedTarif" class="card shadow-sm p-4 bg-warning-subtle">
+    <h5 class="mb-3">Tarif bearbeiten</h5>
+    <form (ngSubmit)="updateTarif()">
+      <div class="mb-3">
+        <label class="form-label">Preis in Euro (€):</label>
+        <input type="number" step="0.01" class="form-control" [(ngModel)]="selectedTarif.preis_euro" name="edit_preis_euro" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Preis in Coins:</label>
+        <input type="number" class="form-control" [(ngModel)]="selectedTarif.preis_coins" name="edit_preis_coins" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Gültig ab:</label>
+        <input type="date" class="form-control" [(ngModel)]="selectedTarif.gueltig_ab" name="edit_gueltig_ab" required>
+      </div>
+
+      <button class="btn btn-primary me-2" type="submit">Speichern</button>
+      <button class="btn btn-secondary" type="button" (click)="cancelEdit()">Abbrechen</button>
     </form>
   </div>
 </div>
-

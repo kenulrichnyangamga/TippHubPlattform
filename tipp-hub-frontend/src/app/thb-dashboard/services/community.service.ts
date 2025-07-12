@@ -1,37 +1,27 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export interface Community {
   name: string;
   manager: string | null;
   members: { name: string; status: 'aktiv' | 'gesperrt' }[];
+
+
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommunityService {
-  private communities: Community[] = [
-    {
-      name: 'Berlin Sports',
-      manager: null,
-      members: [
-        { name: 'Hans', status: 'aktiv' },
-        { name: 'Julia', status: 'aktiv' }
-      ]
-    },
-    {
-      name: 'Hamburg Fußball',
-      manager: null,
-      members: [
-        { name: 'Mark', status: 'aktiv' },
-        { name: 'Anna', status: 'aktiv' }
-      ]
-    }
-  ];
+  private apiUrl = 'http://localhost:8888/api';
+  constructor(private http: HttpClient) {}
+  private communities: Community[] = [  ];
 
-  getCommunities(): Community[] {
-    return this.communities;
-  }
+   getCommunities(): Observable<any[]> {
+  return this.http.get<any[]>('http://localhost:8888/api/community');
+}
+
 
   getUsers(): { name: string; status: 'aktiv' | 'gesperrt'; community: string }[] {
     return this.communities.flatMap(c =>
@@ -75,14 +65,23 @@ export class CommunityService {
       }
     }
   }
+  assignLCBToCommunity(communityId: number, userId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/communities/${communityId}/lcb`, { userId });
+}
 
-  createCommunity(name: string) {
-    if (!this.communities.find(c => c.name === name)) {
-      this.communities.push({ name, manager: null, members: [] });
-    }
+getCommunityLCBs(communityId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/communities/${communityId}/lcb`);
+}
+
+removeLCBFromCommunity(userId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/communities/lcb/${userId}`);
+}
+
+   createCommunity(community: { name: string, region: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/community`, community);
   }
 
-  deleteCommunity(name: string) {
-    this.communities = this.communities.filter(c => c.name !== name);
-  }
+   deleteCommunity(name: string): Observable<{message: string}> {
+  return this.http.delete<{message: string}>(`${this.apiUrl}/communities/${name}`);
+}
 }

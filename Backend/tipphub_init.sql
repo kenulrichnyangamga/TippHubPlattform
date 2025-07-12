@@ -28,9 +28,7 @@ CREATE TABLE communities (
     community_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
     region VARCHAR(100),
-    created_by INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (created_by) REFERENCES users(user_id)
         ON DELETE SET NULL
 );
 

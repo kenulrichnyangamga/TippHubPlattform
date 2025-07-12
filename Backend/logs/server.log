@@ -44,3 +44,285 @@ juil. 10, 2025 12:20:44 PM com.todoapp.MainVerticle lambda$start$0
 INFO: ✅ Connected to TippHub database.
 juil. 10, 2025 12:20:44 PM com.todoapp.MainVerticle lambda$setupRoutes$1
 INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 2:00:39 PM com.todoapp.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 2:00:39 PM com.todoapp.MainVerticle lambda$setupRoutes$1
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 4:02:19 PM com.todoapp.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 4:02:20 PM com.todoapp.MainVerticle lambda$setupRoutes$1
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 4:25:31 PM com.todoapp.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 4:25:31 PM com.todoapp.MainVerticle lambda$setupRoutes$1
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 4:42:30 PM com.todoapp.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 4:42:31 PM com.todoapp.MainVerticle lambda$setupRoutes$1
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 4:52:21 PM com.todoapp.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 4:52:21 PM com.todoapp.MainVerticle lambda$setupRoutes$1
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 4:54:53 PM com.todoapp.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 4:54:53 PM com.todoapp.MainVerticle lambda$setupRoutes$1
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 4:58:57 PM com.todoapp.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 4:58:57 PM com.todoapp.MainVerticle lambda$setupRoutes$1
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 5:03:51 PM com.todoapp.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 5:03:51 PM com.todoapp.MainVerticle lambda$setupRoutes$1
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 5:07:19 PM com.todoapp.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 5:07:19 PM com.todoapp.MainVerticle lambda$setupRoutes$1
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 5:21:52 PM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 5:21:52 PM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 5:23:33 PM com.tipphub.MainVerticle lambda$setupRoutes$1
+INFO: ✅ /api/ping hit
+juil. 10, 2025 5:23:50 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:24:13 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:25:46 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:26:10 PM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 5:26:10 PM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 5:27:14 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:27:46 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:29:54 PM com.tipphub.MainVerticle lambda$setupRoutes$1
+INFO: ✅ /api/ping hit
+juil. 10, 2025 5:33:02 PM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 5:33:02 PM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 5:33:17 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:37:52 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:38:57 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:45:27 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:45:38 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:46:13 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:46:15 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:46:50 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:46:57 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:49:50 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:54:47 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:54:51 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:55:19 PM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 5:55:19 PM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 5:55:30 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:55:34 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:56:01 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:56:04 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:56:22 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:56:26 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:58:08 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:58:33 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 5:58:48 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:06:31 PM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 6:06:31 PM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 6:06:53 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:07:00 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:07:12 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:08:16 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:08:31 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:18:56 PM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 6:18:57 PM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 6:19:18 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:19:24 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:19:42 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:19:48 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:19:50 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:19:50 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:21:17 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:33:46 PM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 6:33:46 PM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 6:33:54 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:34:30 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:34:36 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:34:52 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 6:34:55 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 7:43:21 PM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 10, 2025 7:43:22 PM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 10, 2025 7:53:13 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 7:59:21 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 7:59:38 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 8:00:01 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 8:05:44 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 10, 2025 10:38:48 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 12, 2025 1:51:49 AM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 12, 2025 1:51:49 AM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 12, 2025 1:52:14 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 12, 2025 1:52:17 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 1 ligne(s)
+juil. 12, 2025 1:52:48 AM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 12, 2025 1:52:48 AM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 12, 2025 1:53:04 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 8 ligne(s)
+juil. 12, 2025 1:53:10 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 8 ligne(s)
+juil. 12, 2025 1:53:11 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 8 ligne(s)
+juil. 12, 2025 1:54:11 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 8 ligne(s)
+juil. 12, 2025 1:54:41 AM com.tipphub.MainVerticle createTHMCoinTarif
+INFO: 📥 JSON reçu : {
+  "preis_euro" : 10,
+  "preis_coins" : 40,
+  "gueltig_ab" : "2025-07-12"
+}
+juil. 12, 2025 1:54:41 AM com.tipphub.MainVerticle lambda$createTHMCoinTarif$7
+INFO: ✅ THMCoin Tarif inséré !
+juil. 12, 2025 1:54:43 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 1:58:04 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 1:58:04 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 2:20:14 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 2:21:30 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 2:22:24 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 2:23:42 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 2:37:49 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 2:38:22 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 2:38:32 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 2:47:06 AM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 12, 2025 2:47:06 AM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 12, 2025 2:47:14 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 2:59:21 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 3:00:33 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 3:06:01 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 3:09:56 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 3:12:10 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 3:13:12 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 3:14:49 AM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 12, 2025 3:14:49 AM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 12, 2025 3:14:53 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 3:15:02 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 9 ligne(s)
+juil. 12, 2025 3:24:58 AM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 12, 2025 3:24:59 AM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 12, 2025 3:26:16 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 8 ligne(s)
+juil. 12, 2025 3:26:31 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 7 ligne(s)
+juil. 12, 2025 3:26:35 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 6 ligne(s)
+juil. 12, 2025 3:26:39 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 5 ligne(s)
+juil. 12, 2025 3:26:43 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 4 ligne(s)
+juil. 12, 2025 3:26:49 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 3 ligne(s)
+juil. 12, 2025 3:27:01 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$3
+INFO: ✅ Tarifs chargés : 3 ligne(s)
+juil. 12, 2025 4:22:45 AM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 12, 2025 4:22:45 AM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 12, 2025 9:14:52 AM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 12, 2025 9:14:52 AM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 12, 2025 9:34:03 AM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 12, 2025 9:34:03 AM com.tipphub.MainVerticle lambda$setupRoutes$2
+INFO: 🚀 TippHub backend running on port 8888
+juil. 12, 2025 4:25:31 PM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 12, 2025 4:25:31 PM com.tipphub.MainVerticle lambda$setupRoutes$4
+INFO: 🚀 TippHub backend running on port 8888
+juil. 12, 2025 6:17:55 PM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 12, 2025 6:17:55 PM com.tipphub.MainVerticle lambda$setupRoutes$4
+INFO: 🚀 TippHub backend running on port 8888
