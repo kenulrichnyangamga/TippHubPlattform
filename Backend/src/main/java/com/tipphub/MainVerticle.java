@@ -56,7 +56,7 @@ public class MainVerticle extends AbstractVerticle {
         }
 
         JsonObject config = new JsonObject()
-            .put("url", "jdbc:mariadb://localhost:3300/tipphub")
+            .put("url", "jdbc:mariadb://localhost:3306/tipphub")
             .put("driver_class", "org.mariadb.jdbc.Driver")
             .put("user", "root")
             .put("password", "fragile")

@@ -37,18 +37,28 @@
     </div>
 
     <!-- Geburtsdatum -->
-    <label class="form-label">Geburtsdatum</label>
-    <div class="row mb-3">
-      <div class="col">
-        <select class="form-select" [(ngModel)]="user.birthMonth" name="birthMonth"><option>Monat</option></select>
-      </div>
-      <div class="col">
-        <select class="form-select"><option>Tag</option></select>
-      </div>
-      <div class="col">
-        <select class="form-select"><option>Jahr</option></select>
-      </div>
-    </div>
+<label class="form-label">Geburtsdatum</label>
+<div class="row mb-3">
+  <div class="col">
+    <select class="form-select" [(ngModel)]="user.birthDay" name="birthDay" required>
+      <option value="" disabled selected>Tag</option>
+      <option *ngFor="let day of days" [value]="day">{{ day }}</option>
+    </select>
+  </div>
+  <div class="col">
+    <select class="form-select" [(ngModel)]="user.birthMonth" name="birthMonth" required>
+      <option value="" disabled selected>Monat</option>
+      <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+    </select>
+  </div>
+  <div class="col">
+    <select class="form-select" [(ngModel)]="user.birthYear" name="birthYear" required>
+      <option value="" disabled selected>Jahr</option>
+      <option *ngFor="let year of years" [value]="year">{{ year }}</option>
+    </select>
+  </div>
+</div>
+
 
     <!-- Geburtsort -->
     <div class="mb-3">

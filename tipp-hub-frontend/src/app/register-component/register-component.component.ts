@@ -1,7 +1,7 @@
 import { AuthService } from '../auth.service'; // adapte le chemin si besoin
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './register-component.component.css'
 })
 
-export class RegisterComponentComponent {
+export class RegisterComponentComponent implements OnInit {
   status: string = '';
   user = {
      gender: '',
@@ -110,5 +110,16 @@ this.passwordMismatch = false;
       error: err => this.status = '❌ Erreur: ' + err.error
     });
   }
+  days: number[] = [];
+months: number[] = [];
+years: number[] = [];
+
+ngOnInit() {
+  this.days = Array.from({ length: 31 }, (_, i) => i + 1);
+  this.months = Array.from({ length: 12 }, (_, i) => i + 1);
+  const currentYear = new Date().getFullYear();
+  this.years = Array.from({ length: 100 }, (_, i) => currentYear - i);
+}
+
 }
 

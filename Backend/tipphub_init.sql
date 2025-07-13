@@ -28,8 +28,8 @@ CREATE TABLE communities (
     community_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
     region VARCHAR(100),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        ON DELETE SET NULL
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    
 );
 
 -- Appartenance des PUS à des communautés
