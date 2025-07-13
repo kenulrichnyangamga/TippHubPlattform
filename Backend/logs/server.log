@@ -326,3 +326,29 @@ juil. 12, 2025 6:17:55 PM com.tipphub.MainVerticle lambda$start$0
 INFO: ✅ Connected to TippHub database.
 juil. 12, 2025 6:17:55 PM com.tipphub.MainVerticle lambda$setupRoutes$4
 INFO: 🚀 TippHub backend running on port 8888
+juil. 12, 2025 7:15:03 PM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$18
+INFO: ✅ Tarifs chargés : 3 ligne(s)
+juil. 13, 2025 6:07:39 AM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 13, 2025 6:07:39 AM com.tipphub.MainVerticle lambda$setupRoutes$4
+INFO: 🚀 TippHub backend running on port 8888
+juil. 13, 2025 9:55:27 AM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 13, 2025 9:55:28 AM com.tipphub.MainVerticle lambda$setupRoutes$4
+INFO: 🚀 TippHub backend running on port 8888
+juil. 13, 2025 9:59:59 AM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 13, 2025 9:59:59 AM com.tipphub.MainVerticle lambda$setupRoutes$4
+INFO: 🚀 TippHub backend running on port 8888
+juil. 13, 2025 1:48:41 PM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 13, 2025 1:48:41 PM com.tipphub.MainVerticle lambda$setupRoutes$4
+INFO: 🚀 TippHub backend running on port 8888
+juil. 13, 2025 2:24:34 PM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 13, 2025 2:24:34 PM com.tipphub.MainVerticle lambda$setupRoutes$4
+INFO: 🚀 TippHub backend running on port 8888
+juil. 13, 2025 3:35:57 PM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 13, 2025 3:35:57 PM com.tipphub.MainVerticle lambda$setupRoutes$4
+INFO: 🚀 TippHub backend running on port 8888

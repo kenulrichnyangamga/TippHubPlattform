@@ -17,6 +17,13 @@ export class PusService {
         { headers: new HttpHeaders({'Content-Type': 'application/json'}) }
     );
 }
+toggleUserStatus(userId: number, action: 'sperren'|'freigeben'): Observable<any> {
+  const newStatus = action === 'sperren' ? 'gesperrt' : 'aktiv';
+  
+  return this.http.patch(`${this.apiUrl}/pus/${userId}/status`, { 
+    status: newStatus 
+  }, { responseType: 'text' });
+}
 // pus.service.ts
 getCommunityLCBs(communityId: number): Observable<any[]> {
   return this.http.get<any[]>(`${this.apiUrl}/communities/${communityId}/lcb`);
@@ -25,7 +32,5 @@ getCommunityLCBs(communityId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/pus`);
   }
 
-  updatePusStatus(pusId: number, action: 'sperren'|'freigeben'|'lcb'): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/pus/${pusId}`, { action });
-  }
+  
 }

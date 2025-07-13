@@ -95,6 +95,7 @@ public class MainVerticle extends AbstractVerticle {
     router.delete("/api/thmcoins/:id").handler(this::deleteTHMCoinTarif);
     router.post("/api/communities/:communityId/assign-lcb/:userId").handler(this::Lcbzuorden);
     // THMCoin routes
+    router.patch("/api/pus/:userId/status").handler(this::handleUserStatusUpdate);
     router.post("/api/thmcoins").handler(this::createTHMCoinTarif);
     router.put("/api/thmcoins").handler(this::updateTHMCoinTarif);
     router.get("/api/thmcoins").handler(this::getAllTHMCoinTarifs); // ✅ ICI
@@ -108,7 +109,7 @@ public class MainVerticle extends AbstractVerticle {
     int communityId = Integer.parseInt(ctx.pathParam("id"));
     
     String sql = "SELECT u.user_id, u.username FROM users u " +
-                 "JOIN community_lcb cl ON u.user_id = cl.user_id " +
+                 "JOIN community_managers cl ON u.user_id = cl.user_id " +
                  "WHERE cl.community_id = ?";
     
     jdbc.queryWithParams(sql, new JsonArray().add(communityId), res -> {
@@ -140,16 +141,16 @@ public class MainVerticle extends AbstractVerticle {
             }
         });
 }private void getCommunityDetails(RoutingContext ctx) {
-    int id = Integer.parseInt(ctx.pathParam("id"));
-    String sql = "SELECT c.*, " +
-                 "(SELECT GROUP_CONCAT(user_id) FROM community_lcb WHERE community_id = c.id) AS lcb_ids " +
-                 "FROM communities c WHERE c.id = ?";
+    int communityId = Integer.parseInt(ctx.pathParam("id"));
     
-    jdbc.queryWithParams(sql, new JsonArray().add(id), res -> {
+    String sql = "SELECT * FROM communities WHERE id = ?";
+    
+    jdbc.queryWithParams(sql, new JsonArray().add(communityId), res -> {
         if (res.succeeded() && !res.result().getRows().isEmpty()) {
+            JsonObject community = res.result().getRows().get(0);
             ctx.response()
                .putHeader("Content-Type", "application/json")
-               .end(res.result().getRows().get(0).toString());
+               .end(community.encode());
         } else {
             ctx.response().setStatusCode(404).end();
         }
@@ -214,8 +215,40 @@ private void Lcbzuorden(RoutingContext ctx) {
         });
     });
 }
+private void handleUserStatusUpdate(RoutingContext ctx) {
+    try {
+        JsonObject body = ctx.getBodyAsJson();
+        int userId = Integer.parseInt(ctx.pathParam("userId"));
+        String newStatus = body.getString("status");
 
-private void rollback(SQLConnection connection, RoutingContext ctx) {
+        // ⚠️ Ajoutez cette validation AVANT l'UPDATE
+        System.out.println("[DEBUG] UserID: " + userId + ", NewStatus: " + newStatus);
+        if (!"aktiv".equals(newStatus) && !"gesperrt".equals(newStatus)) {
+            ctx.response()
+               .setStatusCode(400) // Bad Request
+               .putHeader("Content-Type", "text/plain")
+               .end("Statut invalide. Utilisez 'aktiv' ou 'gesperrt'.");
+            return; // ← Important pour stopper l'exécution
+        }
+
+        // Requête SQL (existant)
+        String sql = "UPDATE users SET status = ? WHERE user_id = ?";
+        jdbc.updateWithParams(sql, new JsonArray().add(newStatus).add(userId), res -> {
+            if (res.succeeded()) {
+                ctx.response().end("Status aktualisiert");
+            } else {
+                ctx.response()
+                   .setStatusCode(500)
+                   .end("Fehler beim Datenbank-Update: " + res.cause().getMessage());
+            }
+        });
+
+    } catch (Exception e) {
+        ctx.response()
+           .setStatusCode(400)
+           .end("Ungültige Anfrage: " + e.getMessage());
+    }
+}private void rollback(SQLConnection connection, RoutingContext ctx) {
     connection.rollback(rollbackRes -> {
         connection.close();
         ctx.response()
@@ -261,7 +294,7 @@ private void handlePusAction(RoutingContext ctx) {
 }
 
 private void getPusList(RoutingContext ctx) {
-    String sql = "SELECT user_id as id, username, role, status FROM users WHERE role IN ('PUS', 'LCB')";
+    String sql = "SELECT user_id as id, username, role, status FROM users WHERE role IN ('PUS', 'LCB', 'KWA')";
     
     jdbc.query(sql, res -> {
         if (res.succeeded()) {

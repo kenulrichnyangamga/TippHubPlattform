@@ -39,7 +39,14 @@ export class CommunitiesManagementComponent implements OnInit {
  ngOnInit(): void {
   this.loadCommunities();
 }
-
+loadCommunityDetails(communityId: number): void {
+  this.communityService.getCommunityDetails(communityId).subscribe({
+    next: (community) => {
+      this.selectedCommunity = community;
+    },
+    error: (err) => console.error('Erreur chargement détails', err)
+  });
+}
 
 // Pour assigner un LCB
 assignAsLCB(userId: number) {
@@ -50,7 +57,7 @@ assignAsLCB(userId: number) {
       next: () => {
         this.successMessage = 'Erfolgreich als LCB zugeordnet';
         // Recharger les données de la communauté
-        this.loadCommunities();
+        this.loadCommunityDetails(this.selectedCommunity!.id);
       },
       error: (err) => {
         this.successMessage = 'Fehler: ' + (err.error?.message || err.message);
@@ -137,7 +144,7 @@ loadCommunities(): void {
 onCommunitySelect(): void {
   if (this.selectedCommunity) {
     console.log('Communauté sélectionnée :', this.selectedCommunity);
-    //this.loadCommunityDetails(this.selectedCommunity.id);
+   this.loadCommunityDetails(this.selectedCommunity.id);
   }
 }
   getSelectedCommunity() {
@@ -145,4 +152,16 @@ onCommunitySelect(): void {
     if (community) this.loadCommunityLCBs(); // Charge les LCBs quand une communauté est sélectionnée
     return community;
   }
+
+  updateUserStatus(userId: number, action: 'sperren'|'freigeben'): void {
+  if (confirm(`Voulez-vous vraiment ${action} cet utilisateur?`)) {
+    this.pusService.toggleUserStatus(userId, action).subscribe({
+      next: () => {
+        this.successMessage = `Utilisateur ${action} avec succès`;
+        this.loadCommunityDetails(this.selectedCommunity!.id);
+      },
+      error: (err) => console.error(err)
+    });
+  }
+}
 }

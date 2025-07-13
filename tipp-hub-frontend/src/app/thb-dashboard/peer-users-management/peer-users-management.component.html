@@ -27,52 +27,65 @@
     </div>
   </div>
 
-  <!-- User List -->
-  <div class="table-responsive">
-    <table class="table table-hover">
-      <thead class="table-light">
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Status</th>
-          <th>Community</th>
-          <th>Aktionen</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of getFilteredUsers()">
-          <td>{{ user.user_id }}</td>
-          <td>{{ user.username }}</td>
-          <td>
-            <span [class.text-success]="user.status === 'aktiv'"
-                  [class.text-danger]="user.status === 'gesperrt'">
-              {{ user.status | titlecase }}
-            </span>
-          </td>
-          <td>{{ user.community_name || '-' }}</td>
-          <td>
-            <div class="btn-group btn-group-sm">
-              <!-- Toggle Status Button -->
-              <button (click)="toggleUserStatus(user)" 
-                      class="btn"
-                      [class.btn-warning]="user.status === 'aktiv'"
-                      [class.btn-success]="user.status === 'gesperrt'">
-                {{ user.status === 'aktiv' ? 'Sperren' : 'Freigeben' }}
-              </button>
-
-              <!-- Assign LCB Button -->
-              <button *ngIf="selectedCommunityId"
-                      (click)="assignAsLCB(user)"
-                      class="btn btn-primary"
-                      [disabled]="user.status === 'gesperrt' || user.role === 'LCB'">
-                {{ user.role === 'LCB' ? 'Ist LCB' : 'Als LCB zuordnen' }}
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+ <!-- User List -->
+<div class="table-responsive">
+  <!-- Indicateur de chargement -->
+  <div *ngIf="isLoading" class="text-center my-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
   </div>
+
+  <!-- Tableau principal -->
+  <table *ngIf="!isLoading" class="table table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Community</th>
+        <th>Aktionen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users">  <!-- Changé de getFilteredUsers() à users -->
+        <td>{{ user.user_id }}</td>
+        <td>{{ user.username }}</td>
+        <td>
+          <span [class.text-success]="user.status === 'aktiv'"
+                [class.text-danger]="user.status === 'gesperrt'">
+            {{ user.status | titlecase }}
+          </span>
+        </td>
+        <td>{{ user.community_name || '-' }}</td>
+        <td>
+          <div class="btn-group btn-group-sm">
+            <!-- Toggle Status Button -->
+            <button (click)="toggleUserStatus(user)" 
+                    class="btn"
+                    [class.btn-warning]="user.status === 'aktiv'"
+                    [class.btn-success]="user.status === 'gesperrt'">
+              {{ user.status === 'aktiv' ? 'Sperren' : 'Freigeben' }}
+            </button>
+
+            <!-- Assign LCB Button -->
+            <button *ngIf="selectedCommunityId"
+                    (click)="assignAsLCB(user)"
+                    class="btn btn-primary"
+                    [disabled]="user.status === 'gesperrt' || user.role === 'LCB'">
+              {{ user.role === 'LCB' ? 'Ist LCB' : 'Als LCB zuordnen' }}
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Message si liste vide -->
+  <div *ngIf="!isLoading && users.length === 0" class="alert alert-info mt-3">
+    Keine Benutzer gefunden
+  </div>
+</div>
 
   <!-- LCB Assignment Modal -->
   <div class="modal fade" id="assignLCBModal" tabindex="-1" aria-hidden="true">

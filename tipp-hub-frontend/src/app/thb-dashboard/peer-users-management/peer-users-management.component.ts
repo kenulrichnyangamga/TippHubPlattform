@@ -24,11 +24,13 @@ selectedCommunityForAssignment: number | null = null;
   selectedCommunity: string = '';
   search: string = '';
   successMessage: string = '';
+  isLoading: boolean = true;
+  
 
   constructor(private communityService: CommunityService, private pusService: PusService) {}
 
   ngOnInit() {
-    this.users = this.communityService.getUsers();
+    this.loadPusList();
     //this.communities = this.communityService.getCommunities();
   }
 
@@ -59,27 +61,73 @@ selectedCommunityForAssignment: number | null = null;
     error: (err) => this.errorMessage = 'Fehler: ' + err.message
   });
 }
-  toggleUserStatus(user: any) {
-    this.communityService.toggleUserStatus(user.name);
-    this.ngOnInit(); // Refresh
+toggleUserStatus(user: { id: number, status: 'aktiv' | 'gesperrt' }): void {
+  // Debug : vérifiez que user et user.user_id existent
+  console.log('Current user:', user); // <-- À vérifier dans la console navigateur (F12)
+
+  if (!user?.id || user?.status === undefined) {
+    this.errorMessage = 'Benutzerdaten sind unvollständig!';
+    return;
   }
 
-   loadPusList(): void {
+  const action = user.status === 'aktiv' ? 'sperren' : 'freigeben';
+  this.pusService.toggleUserStatus(user.id, action).subscribe({
+    next: () => {
+      user.status = action === 'freigeben' ? 'aktiv' : 'gesperrt';
+      this.successMessage = `Benutzer wurde ${action === 'freigeben' ? 'freigegeben' : 'gesperrt'}.`;
+    },
+    error: (err) => {
+      this.errorMessage = `Fehler: ${err.statusText || 'Unbekannter Fehler'}`;
+      console.error('API Error:', err); // <-- Détails dans la console
+    }
+  });
+}
+
+   // Méthodes d'aide
+  private showSuccess(message: string): void {
+    // Implémentez votre logique d'affichage de succès
+    console.log('Succès:', message);
+  }
+
+  private showError(message: string): void {
+    // Implémentez votre logique d'affichage d'erreur
+    console.error('Erreur:', message);
+  }
+
+  
+
+
+loadPusList(): void {
+    this.isLoading = true;
+    this.errorMessage = '';
+    
     this.pusService.getPusList().subscribe({
-      next: (data) => this.users = data,
-      error: (err) => this.successMessage = 'Fehler beim Laden der PUS-Liste'
+      next: (data) => {
+        this.users = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.errorMessage = 'Fehler beim Laden der PUS-Liste';
+        this.isLoading = false;
+        console.error('Erreur:', err);
+      }
     });
   }
-
    managePus(pusId: number, action:  'sperren' | 'freigeben' | 'lcb'): void {
     if (!confirm(`Sind Sie sicher, dass Sie diese Aktion (${action}) durchführen möchten?`)) {
       return;
     }
+    if (action === 'lcb') {
+    // appeler la fonction spécifique pour gérer LCB
+    this.assignAsLCB(pusId);
+    return;
+  }
 
-    this.pusService.updatePusStatus(pusId, action).subscribe({
+
+    this.pusService.toggleUserStatus(pusId, action).subscribe({
       next: () => {
         this.successMessage = `Aktion ${action} erfolgreich durchgeführt`;
-        this.loadPusList();
+        this.loadUsers();
       },
       error: (err) => {
         this.successMessage = `Fehler bei ${action}: ${err.error?.message || err.message}`;
@@ -89,6 +137,7 @@ selectedCommunityForAssignment: number | null = null;
   loadUsers(): void {
   this.pusService.getPusList().subscribe({
     next: (users) => {
+       console.log('✅ Données reçues de l’API:', users);
       this.users = users;
       this.filteredUsers = this.getFilteredUsers();
     },

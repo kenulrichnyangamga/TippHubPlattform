@@ -52,19 +52,7 @@ export class CommunityService {
     return { success: true, message: 'User wurde erfolgreich als LCB zugeordnet.' };
   }
 
-  toggleUserStatus(userName: string) {
-    for (const community of this.communities) {
-      const member = community.members.find(m => m.name === userName);
-      if (member) {
-        member.status = member.status === 'aktiv' ? 'gesperrt' : 'aktiv';
-        // Remove from manager if banned
-        if (member.status === 'gesperrt' && community.manager === userName) {
-          community.manager = null;
-        }
-        return;
-      }
-    }
-  }
+
   assignLCBToCommunity(communityId: number, userId: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/communities/${communityId}/lcb`, { userId });
 }
@@ -83,5 +71,8 @@ removeLCBFromCommunity(userId: number): Observable<any> {
 
    deleteCommunity(name: string): Observable<{message: string}> {
   return this.http.delete<{message: string}>(`${this.apiUrl}/communities/${name}`);
+}
+getCommunityDetails(communityId: number): Observable<any> {
+  return this.http.get(`${this.apiUrl}/communities/${communityId}`)
 }
 }
