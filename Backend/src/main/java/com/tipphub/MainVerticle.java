@@ -430,7 +430,15 @@ private void deleteTHMCoinTarif(RoutingContext ctx) {
 
 
     private void handleRegister(RoutingContext ctx) {
-        JsonObject body = ctx.getBodyAsJson();
+    System.out.println("Reçu: " + ctx.getBodyAsString()); // Log la requête
+    
+    JsonObject body = ctx.getBodyAsJson();
+    if (body == null) {
+        ctx.response()
+           .setStatusCode(400)
+           .end("Format JSON invalide");
+        return;
+    }
         String username = body.getString("username");
         String email = body.getString("email");
         String password = body.getString("password");
@@ -443,9 +451,9 @@ private void deleteTHMCoinTarif(RoutingContext ctx) {
         jdbc.updateWithParams(sql, new io.vertx.core.json.JsonArray()
             .add(username).add(email).add(hashed).add(role), res -> {
             if (res.succeeded()) {
-                ctx.response().setStatusCode(201).end("✅ User registered.");
+                ctx.response().setStatusCode(201).end(" User registered.");
             } else {
-                ctx.response().setStatusCode(400).end("❌ Registration failed: " + res.cause().getMessage());
+                ctx.response().setStatusCode(400).end(" Registration failed: " + res.cause().getMessage());
             }
         });
     }
@@ -453,43 +461,46 @@ private void deleteTHMCoinTarif(RoutingContext ctx) {
     private void handleLogin(RoutingContext ctx) {
     JsonObject body = ctx.getBodyAsJson();
     if (body == null) {
-        ctx.response().setStatusCode(400).end("❌ Requête invalide (pas de JSON reçu)");
+        ctx.response().setStatusCode(400).end("Requête invalide (pas de JSON reçu)");
         return;
     }
 
-    String identifier = body.getString("username"); // peut être username ou email
+    String email = body.getString("email");
     String password = body.getString("password");
 
-    if (identifier == null || password == null || identifier.isEmpty() || password.isEmpty()) {
-        ctx.response().setStatusCode(400).end("❌ Paramètres manquants");
+    if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
+        ctx.response().setStatusCode(400).end("Paramètres manquants");
         return;
     }
 
-    String sql = "SELECT * FROM users WHERE username = ? OR email = ?";
+    String sql = "SELECT * FROM users WHERE email = ?";
 
-    jdbc.queryWithParams(sql, new JsonArray().add(identifier).add(identifier), res -> {
+    jdbc.queryWithParams(sql, new JsonArray().add(email), res -> {
         if (res.succeeded() && !res.result().getRows().isEmpty()) {
             JsonObject user = res.result().getRows().get(0);
             String hash = user.getString("password_hash");
 
             BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), hash);
             if (result.verified) {
-                ctx.response().setStatusCode(200)
-                    .putHeader("Content-Type", "application/json")
-                    .end(new JsonObject()
-                        .put("user_id", user.getInteger("user_id"))
-                        .put("username", user.getString("username"))
-                        .put("role", user.getString("role"))
-                        .put("message", "✅ Login successful").encode());
+                JsonObject response = new JsonObject()
+                    .put("user_id", user.getInteger("user_id"))
+                    .put("username", user.getString("username"))
+                    .put("role", user.getString("role"))
+                    .put("message", "Login successful");
+
+                ctx.response()
+                   .setStatusCode(200)
+                   .putHeader("Content-Type", "application/json")
+                   .end(response.encode());
             } else {
-                ctx.response().setStatusCode(401).end("❌ Invalid credentials");
+                ctx.response().setStatusCode(401).end("Identifiants invalides");
             }
         } else {
-            ctx.response().setStatusCode(401).end("❌ User not found");
+            ctx.response().setStatusCode(401).end("Utilisateur introuvable");
         }
-    }
-    );
+    });
 }
+
 private void createTHMCoinTarif(RoutingContext ctx) {
     JsonObject body = ctx.getBodyAsJson();
     logger.info("📥 JSON reçu : " + body.encodePrettily());

@@ -1,6 +1,16 @@
 <div class="container mt-4">
   <h2 class="text-center mb-4">Registrierungsformular</h2>
 
+  <!-- Message de succès -->
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
+  </div>
+
+  <!-- Message d'erreur -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div> 
+  
   <form (ngSubmit)="onRegister()" #registerForm="ngForm">
     <!-- Geschlecht -->
     <label class="form-label">Geschlecht</label>
@@ -22,6 +32,9 @@
       </div>
       <div class="col">
         <input class="form-control" [(ngModel)]="user.lastName" name="lastName" placeholder="Nachname" required />
+      </div>
+       <div class="col">
+       <input class="form-control" [(ngModel)]="user.username" name="username" placeholder="username" required>
       </div>
     </div>
 
@@ -107,7 +120,7 @@
         <label class="form-check-label">KWA (Anbieter)</label>
       </div>
     </div>
-
+  
     <!-- Unternehmensformular (nur für KWA sichtbar) -->
     <div *ngIf="status === 'KWA'" class="border p-3 mb-4">
       <h5>Unternehmensinformationen</h5>

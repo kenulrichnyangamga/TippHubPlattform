@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+//import { LoginComponent } from './login-component.component';
 
 @Component({
   selector: 'app-register-component',
@@ -15,7 +17,9 @@ import { CommonModule } from '@angular/common';
 export class RegisterComponentComponent {
   status: string = '';
   user = {
-     gender: '',
+  username:'',
+  password:'',
+  gender: '',
   firstName: '',
   lastName: '',
   email: '',
@@ -32,11 +36,13 @@ export class RegisterComponentComponent {
   role: 'PUS',
   companyName: '',
   companyIndustry: '',
-  companyAddress: '',
-  password: ''
+  companyAddress: ''
   };
+   isLoading = false;
+  errorMessage = '';
+  successMessage = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
  
   geschlecht = '';
@@ -63,52 +69,37 @@ export class RegisterComponentComponent {
   onStatusChange(value: string) {
     this.status = value;
   }
-
   onRegister() {
+  this.successMessage = '';
+  this.errorMessage = '';
 
-    if (this.password !== this.confirmPassword) {
-  this.passwordMismatch = true;
-  return;
-}
-this.passwordMismatch = false;
+   if (!this.user.username || !this.user.email || !this.user.password) {
+    this.errorMessage = 'Bitte füllen Sie alle Felder aus';
+    return;
+  }
 
-     const daten = {
-      geschlecht: this.geschlecht,
-      vorname: this.vorname,
-      nachname: this.nachname,
-      email: this.email,
-      telefon: this.telefon,
-      geburtsdatum: this.geburtsdatum,
-      geburtsort: this.geburtsort,
-      nationalitaet: this.nationalitaet,
-      adresse: {
-        strasse: this.strasse,
-        hausnummer: this.hausnummer,
-        plz: this.plz,
-        stadt: this.stadt
+    this.isLoading = true;
+
+
+    this.authService.register({
+      username: this.user.username,
+      email: this.user.email,
+      password: this.user.password,
+      role: this.user.role || 'PUS'
+
+    }).subscribe({
+
+      next: () => {
+        this.isLoading = false;
+        this.successMessage = 'Registrierung erfolgreich! Sie werden zum Login weitergeleitet.';
+        setTimeout(() => this.router.navigate(['/login-component']), 2000);
       },
-      status: this.status,
-      password: this.password,
-      firma: this.status === 'KWA' ? {
-        name: this.firmaName,
-        branche: this.branche,
-        adresse: this.firmaAdresse
-      } : null
-    };
-
-      console.log('Registrierungsdaten:', daten);
-
-    const user = {
-      username: `${this.vorname}.${this.nachname}`,
-      email: this.email,
-      password: this.password,
-      role: this.status
-    };
-
-    this.authService.register(user).subscribe({
-      next: () => this.status = '✅ Enregistrement réussi !',
-      error: err => this.status = '❌ Erreur: ' + err.error
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = err.error?.message || 'Registrierung fehlgeschlagen';
+      }
     });
   }
 }
+
 

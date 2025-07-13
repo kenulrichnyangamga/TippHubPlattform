@@ -1,39 +1,23 @@
 import { Component } from '@angular/core';
-import {
-  trigger,
-  style,
-  transition,
-  animate,
-  keyframes
-} from '@angular/animations';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
-
+ 
 @Component({
   selector: 'app-login-component',
   standalone: true,
   imports: [FormsModule, RouterModule, CommonModule],
-  animations: [
-    trigger('bounceIn', [
-      transition(':enter', [
-        animate(
-          '0.8s ease-out',
-          keyframes([
-            style({ opacity: 0, transform: 'translateY(100px)', offset: 0 }),
-            style({ opacity: 1, transform: 'translateY(-15px)', offset: 0.6 }),
-            style({ transform: 'translateY(5px)', offset: 0.8 }),
-            style({ transform: 'translateY(0)', offset: 1.0 })
-          ])
-        )
-      ])
-    ]),
-  ],
   templateUrl: './login-component.component.html',
   styleUrls: ['./login-component.component.css']
 })
 export class LoginComponentComponent {
+   credentials = {
+    email: '', // Peut être email ou username
+    password: ''
+  };
+  // isLoading = false;
+  errorMessage = '';
   public username = '';
   public password = '';
   public email = '';
@@ -43,23 +27,39 @@ export class LoginComponentComponent {
   constructor(private router: Router, private authService: AuthService) {}
 
   onLogin() {
-    const identifier = this.username || this.email;
-
-    if (!identifier || !this.password) {
-      alert('❌ Bitte geben Sie Benutzername/E-Mail und Passwort ein.');
+    console.log('✅ onLogin() déclenché', this.credentials.email, this.credentials.password);
+    if (!this.credentials.email || !this.credentials.password) {
+      this.errorMessage = 'Bitte geben Sie E-Mail und Passwort ein.';
       return;
     }
 
-    this.authService.login(identifier, this.password).subscribe({
-      next: (res: any) => {
-        alert(`✅ Willkommen ${res.username}`);
+   // this.isLoading = true;
+    this.errorMessage = '';
+
+    this.authService.login(this.credentials.email, this.credentials.password).subscribe({
+      next: (res) => {
+        //this.isLoading = false;
+         if (res.role === 'THB') {
+          console.log('Login thb success', res);
         this.router.navigate(['/thb-dashboard']);
+      } 
+      else if (res.role === 'PUS') {
+        console.log('Login pus success', res);
+        this.router.navigate(['/dashboard-pus']);
+      }
+      else if (res.role === 'KWA') {
+        console.log('Login kwa success', res);
+        this.router.navigate(['/dashboardkwa']);
+      }
+
       },
-      error: (err: any) => {
-        alert('❌ Login fehlgeschlagen: Benutzername oder Passwort falsch');
+      error: (err) => {
+        //this.isLoading = false;
+         console.error('Login failed', err);
+        this.errorMessage = 'Login fehlgeschlagen: Falsche Anmeldedaten';
       }
     });
-  }
+  }                                  
 
   onForgotPassword() {
     this.showResetForm = true;
