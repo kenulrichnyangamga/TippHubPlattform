@@ -11,6 +11,7 @@ import { ThbDashboardLayoutComponent } from './thb-dashboard/thb-dashboard-layou
 import { DashboardPusComponent } from './dashboard-pus/dashboard-pus.component';
 import { MeineWettenComponent } from './meine-wetten/meine-wetten.component';
 import { LcbDashboardComponent } from './lcb-dashboard/lcb-dashboard.component';
+import { KwaDashboardComponent } from './kwa-dashboard/kwa-dashboard.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'startseite', pathMatch: 'full' },
@@ -31,7 +32,8 @@ export const routes: Routes = [
     },
     {path: 'dashboard-pus', component: DashboardPusComponent},
      { path: 'meine-wetten', component: MeineWettenComponent },
-     {path: 'lcb-dashboard', component: LcbDashboardComponent}
+     {path: 'lcb-dashboard', component: LcbDashboardComponent},
+     {path: 'kwa-dashboard', component: KwaDashboardComponent}
   
 ];
 

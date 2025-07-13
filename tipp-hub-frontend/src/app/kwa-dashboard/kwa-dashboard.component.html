@@ -1,0 +1,88 @@
+<div class="container my-5">
+  <h2 class="fw-bold text-primary mb-4">🏢 KWA Dashboard</h2>
+
+  <!-- Tabs -->
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'ankuendigung'" (click)="activeTab = 'ankuendigung'">📝 Ankündigungen</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'gutschrift'" (click)="activeTab = 'gutschrift'">💰 THMCoins Gutschrift</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'abrechnung'" (click)="activeTab = 'abrechnung'">📄 Abrechnungen</a>
+    </li>
+  </ul>
+
+  <!--  Ankündigung -->
+  <div *ngIf="activeTab === 'ankuendigung'" class="card border-primary mb-4">
+    <div class="card-header bg-primary text-white">📝 Neue Ankündigung erstellen</div>
+    <div class="card-body">
+      <form [formGroup]="announcementForm" (ngSubmit)="submitAnnouncement()" class="row g-3">
+        <div class="col-md-6">
+          <input class="form-control" formControlName="title" placeholder="Titel der Ankündigung">
+        </div>
+        <div class="col-md-6">
+          <input class="form-control" formControlName="link" placeholder="Externer Link (https://...)">
+        </div>
+        <div class="col-12">
+          <textarea class="form-control" formControlName="description" placeholder="Kurzbeschreibung"></textarea>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Sichtbar für Communities:</label>
+          <div *ngFor="let region of allCommunities" class="form-check">
+            <input type="checkbox" class="form-check-input" [value]="region" (change)="toggleCommunity(region)" [checked]="selectedCommunities.includes(region)">
+            <label class="form-check-label">{{ region }}</label>
+          </div>
+        </div>
+        <div class="col-12 text-end">
+          <button class="btn btn-primary" type="submit">Ankündigung speichern</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!--  THMCoins Gutschrift -->
+  <div *ngIf="activeTab === 'gutschrift'" class="card border-success mb-4">
+    <div class="card-header bg-success text-white">💰 THMCoins Gutschrift</div>
+    <div class="card-body">
+      <form class="row g-3" (ngSubmit)="gutschreiben()" [formGroup]="creditForm">
+        <div class="col-md-6">
+          <label class="form-label">Empfänger (PUS)</label>
+          <select class="form-select" formControlName="recipient">
+            <option *ngFor="let pus of allPUS" [value]="pus">{{ pus }}</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Anzahl Coins</label>
+          <input type="number" class="form-control" formControlName="amount">
+        </div>
+        <div class="col-12 text-end">
+          <button type="submit" class="btn btn-success">Gutschreiben</button>
+        </div>
+      </form>
+
+      <hr />
+      <h6 class="fw-semibold">Letzte Gutschriften</h6>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let eintrag of gutschriften">
+          <strong>{{ eintrag.amount }} THMCoins</strong> an {{ eintrag.recipient }} – <small>{{ eintrag.date }}</small>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!--  Abrechnung -->
+  <div *ngIf="activeTab === 'abrechnung'" class="card border-info">
+    <div class="card-header bg-info text-white">📄 Monatliche Abrechnungen</div>
+    <div class="card-body">
+      <button class="btn btn-outline-info mb-3" (click)="generateAbrechnung()">Abrechnung generieren</button>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let ab of abrechnungen">
+          <strong>Abrechnung:</strong> {{ ab.monat }} – {{ ab.gesamt }} Coins – <strong>{{ ab.totalEur }} €</strong><br />
+          <small>{{ ab.details }}</small>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
