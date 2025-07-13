@@ -1,0 +1,126 @@
+<div class="container my-5">
+  <h2 class="fw-bold text-primary mb-4">👤 LCB Dashboard</h2>
+
+  <!-- Tabs -->
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'anfragen'" (click)="activeTab = 'anfragen'">📥 PUS Anfragen</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'community'" (click)="activeTab = 'community'">👥 Community verwalten</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'konflikte'" (click)="activeTab = 'konflikte'">⚖️ Konflikte</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'events'" (click)="activeTab = 'events'">📅 Event erstellen</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" [class.active]="activeTab === 'thmcoins'" (click)="activeTab = 'thmcoins'">💰 THMCoins</a>
+    </li>
+  </ul>
+
+  <!--  PUS Anfragen -->
+  <div *ngIf="activeTab === 'anfragen'" class="card border-info mb-4">
+    <div class="card-header bg-info text-white">📥 Neue Beitrittsanfragen</div>
+    <div class="card-body">
+      <div *ngIf="joinRequests.length === 0" class="text-muted">Keine offenen Anfragen.</div>
+
+      <div *ngFor="let request of joinRequests" class="card mb-3">
+        <div class="card-body">
+          <h5>{{ request.name }} (Region: {{ request.region }})</h5>
+          <p>{{ request.details }}</p>
+          <button class="btn btn-success me-2" (click)="acceptPUS(request)">Aufnehmen</button>
+          <button class="btn btn-danger" (click)="toggleReject(request)">Ablehnen</button>
+
+          <div *ngIf="request.showRejectBox" class="mt-2">
+            <select class="form-select mb-2" [(ngModel)]="request.rejectionReason">
+              <option *ngFor="let reason of rejectionReasons" [value]="reason">{{ reason }}</option>
+            </select>
+            <button class="btn btn-outline-secondary btn-sm" (click)="rejectPUS(request)">Bestätigen</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 👥 Community verwalten -->
+  <div *ngIf="activeTab === 'community'" class="card border-info mb-4">
+    <div class="card-header bg-info text-white">👥 Community verwalten</div>
+    <div class="card-body">
+      <h6 class="fw-semibold">Alle PUS (Region: {{ communityRegion }})</h6>
+      <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let pus of pusInRegion">
+          {{ pus.name }}
+          <button class="btn btn-sm btn-outline-success" (click)="addToCommunity(pus.name)" [disabled]="localCommunity.includes(pus.name)">
+            Hinzufügen
+          </button>
+        </li>
+      </ul>
+
+      <h6 class="fw-semibold">Community-Mitglieder</h6>
+      <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let member of localCommunity">
+          {{ member }}
+          <button class="btn btn-sm btn-outline-danger" (click)="removePUS(member)">Entfernen</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ⚖️ Konflikte -->
+  <div *ngIf="activeTab === 'konflikte'" class="card border-warning mb-4">
+    <div class="card-header bg-warning text-dark">⚖️ Konflikte schlichten</div>
+    <div class="card-body">
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let konflikt of conflits">
+          <strong>{{ konflikt.between[0] }}</strong> vs <strong>{{ konflikt.between[1] }}</strong><br />
+          <small>Grund: {{ konflikt.reason }}</small>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!--  Event erstellen -->
+  <div *ngIf="activeTab === 'events'" class="card border-primary mb-4">
+    <div class="card-header bg-primary text-white">📅 Event für Community erstellen</div>
+    <div class="card-body">
+      <form [formGroup]="eventForm" (ngSubmit)="createEvent()" class="row g-2">
+        <div class="col-md-6">
+          <input class="form-control" formControlName="title" placeholder="Event-Titel" />
+        </div>
+        <div class="col-md-6">
+          <input type="date" class="form-control" formControlName="date" />
+        </div>
+        <div class="col-12 text-end">
+          <button class="btn btn-primary" type="submit">Erstellen</button>
+        </div>
+      </form>
+
+      <hr />
+      <h6 class="fw-semibold">Bestehende Events</h6>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let e of events">
+          {{ e.title }} – <small>{{ e.date }}</small>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!--  THMCoins Gutschrift -->
+  <div *ngIf="activeTab === 'thmcoins'" class="card border-success mb-4">
+    <div class="card-header bg-success text-white">💰 THMCoins Gutschrift</div>
+    <div class="card-body">
+      <p class="fs-4 fw-bold text-success">{{ aktuelleGutschrift }} THMCoins</p>
+      <button class="btn btn-outline-success" (click)="aktualisierenGutschrift()">Gutschrift aktualisieren</button>
+
+      <hr />
+      <h6 class="fw-semibold">Letzte Gutschriften</h6>
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let eintrag of gutschriftVerlauf">
+          <strong>{{ eintrag.amount }} THMCoins</strong> erhalten am {{ eintrag.date }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

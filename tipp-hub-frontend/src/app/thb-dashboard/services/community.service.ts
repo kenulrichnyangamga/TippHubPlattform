@@ -21,6 +21,9 @@ export class CommunityService {
    getCommunities(): Observable<any[]> {
   return this.http.get<any[]>('http://localhost:8888/api/community');
 }
+getLCBs(): string[] {
+  return ['alex22', 'marie34']; // ⚠️ exemple mock, plus tard dynamique
+}
 
 
   getUsers(): { name: string; status: 'aktiv' | 'gesperrt'; community: string }[] {
@@ -84,4 +87,10 @@ removeLCBFromCommunity(userId: number): Observable<any> {
    deleteCommunity(name: string): Observable<{message: string}> {
   return this.http.delete<{message: string}>(`${this.apiUrl}/communities/${name}`);
 }
+isUserLCB(username: string): boolean {
+  const lcbs = ['alex22', 'marie34']; // à adapter selon ta logique backend plus tard
+  return lcbs.includes(username);
+}
+
+
 }

@@ -3,14 +3,15 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommunityService } from '../thb-dashboard/services/community.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http'; // ✅ Ajouté
+import { HttpClient } from '@angular/common/http';
+import { WettenService, Wette } from '../services/wetten.service';
 
 @Component({
   selector: 'app-dashboard-pus',
   standalone: true,
   imports: [
     CommonModule, RouterModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
   ],
   templateUrl: './dashboard-pus.component.html',
   styleUrls: ['./dashboard-pus.component.css']
@@ -18,39 +19,42 @@ import { HttpClient } from '@angular/common/http'; // ✅ Ajouté
 export class DashboardPusComponent implements OnInit {
 
   soldeTHMCoins = 120;
-  username = 'alex22'; // À remplacer par un login réel
+  username = 'alex22';
+
   events: any[] = [];
-  demandesDePari: any[] = [];
+  demandesDePari: Wette[] = [];
 
   hasCommunity = false;
   communityRequestSent = false;
-  availableCommunities: string[] = [];
 
   betForm: FormGroup;
   joinForm: FormGroup;
 
   showJoinForm = false;
-  showBuyForm = false; // ✅ pour afficher/masquer le formulaire d'achat
+  showBuyForm = false;
 
-  buyOptions = [ // ✅ forfaits
+  buyOptions = [
     { coins: 1, euros: 0.5 },
     { coins: 10, euros: 4 },
     { coins: 50, euros: 18 },
     { coins: 100, euros: 30 }
   ];
 
-  mesWettenErstellt: any[] = [];
-  mesWettenAkzeptiert: any[] = [];
+  mesWettenErstellt: Wette[] = [];
+  mesWettenAkzeptiert: Wette[] = [];
+  isLCB = false;
 
   constructor(
     private fb: FormBuilder,
     private communityService: CommunityService,
-    private http: HttpClient // ✅ injection de HttpClient
+    private http: HttpClient,
+    private wettenService: WettenService
   ) {
     this.betForm = this.fb.group({
       match: [''],
       montant: [''],
-      cote: ['']
+      cote: [''],
+      categorie: ['']
     });
 
     this.joinForm = this.fb.group({
@@ -65,8 +69,16 @@ export class DashboardPusComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadEvenements();
-    this.loadDemandesPari();
     this.checkUserCommunity();
+
+    this.wettenService.wetten$.subscribe((list) => {
+      this.demandesDePari = list;
+      this.mesWettenErstellt = list.filter(w => w.username === this.username);
+      this.mesWettenAkzeptiert = list.filter(
+        w => w.acceptePar === this.username && w.status === 'akzeptiert'
+      );
+      this.isLCB = this.communityService.isUserLCB(this.username);
+    });
   }
 
   checkUserCommunity() {
@@ -83,27 +95,19 @@ export class DashboardPusComponent implements OnInit {
     const infos = this.joinForm.value;
     this.communityRequestSent = true;
     this.showJoinForm = false;
-    console.log(`${this.username} möchte einer Community beitreten. Infos:`, infos);
     alert('📩 Ihre Anfrage zur Community wurde erfolgreich gesendet.');
     this.joinForm.reset();
   }
 
   loadEvenements() {
     this.events = [
-      { title: 'Bundesliga: Leipzig vs Frankfurt', date: null },
-      { title: 'Champions League: PSG vs Barça', date: '22. Juli 2025' }
-    ];
-  }
-
-  loadDemandesPari() {
-    this.demandesDePari = [
-      { username: 'alex22', match: 'PSG vs Barça', montant: 20, cote: '1:2' },
-      { username: 'marie34', match: 'Bayern vs Dortmund', montant: 15, cote: '1:1.5' }
+      { title: 'Bundesliga: Leipzig vs Frankfurt' },
+      { title: 'Champions League: PSG vs Barça' }
     ];
   }
 
   acheterTHMCoins() {
-    this.showBuyForm = !this.showBuyForm; // ✅ toggle formulaire
+    this.showBuyForm = !this.showBuyForm;
   }
 
   acheterOption(option: any) {
@@ -120,7 +124,7 @@ export class DashboardPusComponent implements OnInit {
         this.showBuyForm = false;
       },
       error: () => {
-        alert('❌ Une erreur est survenue lors de l\'achat. Réessayez plus tard.');
+        alert('❌ Eine Fehler ist aufgetreten.');
       }
     });
   }
@@ -130,19 +134,31 @@ export class DashboardPusComponent implements OnInit {
   }
 
   creerDemandePari() {
-    const demande = this.betForm.value;
-    demande.username = this.username;
-    this.demandesDePari.push(demande);
-    this.mesWettenErstellt.push(demande);
+    const demande: Wette = {
+      ...this.betForm.value,
+      username: this.username
+    };
+    this.wettenService.addWette(demande);
     this.betForm.reset();
   }
 
-  accepterPari(demande: any) {
-    this.mesWettenAkzeptiert.push(demande);
-    alert(`Sie haben die Wette über ${demande.match} akzeptiert.`);
+  accepterPari(wette: Wette) {
+    const index = this.wettenService.findIndex(wette);
+    this.wettenService.updateStatus(index, 'akzeptiert', this.username);
   }
 
-  negocierPari(demande: any) {
-    alert(`Vous souhaitez négocier le pari sur : ${demande.match}`);
+  negocierPari(wette: Wette) {
+    const index = this.wettenService.findIndex(wette);
+    this.wettenService.updateStatus(index, 'verhandlung', this.username);
+  }
+
+  istMeineWette(wette: Wette): boolean {
+    return wette.username === this.username;
+  }
+
+  istStatus(wette: Wette, status: string): boolean {
+    return wette.status === status && wette.acceptePar === this.username;
   }
 }
+
+//export { DashboardPusComponent };

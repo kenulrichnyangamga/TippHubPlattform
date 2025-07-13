@@ -1,31 +1,63 @@
 <div class="container my-5">
-  <h2 class="fw-bold text-primary mb-4">Meine Wetten</h2>
+  <h2 class="fw-bold text-primary mb-4">📁 Meine Wetten</h2>
 
-  <!-- Wetten que j'ai créées -->
-  <div class="card border-primary mb-4">
-    <div class="card-header bg-primary text-white fw-semibold">Erstellte Wetten</div>
-    <ul class="list-group list-group-flush" *ngIf="mesWetten.length > 0; else noCreated">
-      <li class="list-group-item" *ngFor="let wette of mesWetten">
-        <strong>Spiel:</strong> {{ wette.match }} |
-        <strong>Betrag:</strong> {{ wette.montant }} THMCoins |
-        <strong>Quote:</strong> {{ wette.cote }} |
-        <strong>Akzeptiert von:</strong> {{ wette.acceptePar || 'Niemand' }}
-      </li>
-    </ul>
-    <ng-template #noCreated>
-      <div class="p-3 text-muted">Keine erstellten Wetten gefunden.</div>
-    </ng-template>
+  <!-- 🎯 Erstellte Wetten -->
+  <div class="card border-success mb-4">
+    <div class="card-header bg-success text-white fw-semibold">
+      <i class="bi bi-pencil-square me-2"></i>Erstellte Wetten
+    </div>
+    <div class="card-body p-0">
+      <ul class="list-group list-group-flush" *ngIf="mesWetten.length > 0; else noCreated">
+        <li class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let wette of mesWetten; let i = index">
+          <div>
+            <strong>{{ wette.match }}</strong><br>
+            <small>Betrag: <strong>{{ wette.montant }} THMCoins</strong> | Quote: <strong>{{ wette.cote }}</strong></small><br>
+            <small class="text-muted">Akzeptiert von: {{ wette.acceptePar || 'Niemand' }}</small>
+          </div>
+          <div class="text-end">
+            <button class="btn btn-outline-primary btn-sm me-2" (click)="anzeigenDetails(wette)">
+              <i class="bi bi-eye"></i>
+            </button>
+            <button class="btn btn-outline-danger btn-sm" (click)="loeschenWette(i)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </li>
+      </ul>
+      <ng-template #noCreated>
+        <div class="p-3 text-muted">Keine erstellten Wetten gefunden.</div>
+      </ng-template>
+    </div>
   </div>
 
-  <!-- Wetten que j'ai acceptées -->
-  <div class="card border-primary">
-    <div class="card-header bg-primary text-white fw-semibold">Akzeptierte Wetten</div>
+ <!-- ✅ Akzeptierte Wetten -->
+<div class="card border-primary">
+  <div class="card-header bg-primary text-white fw-semibold">
+    <i class="bi bi-check2-circle me-2"></i>Akzeptierte Wetten
+  </div>
+  <div class="card-body p-0">
     <ul class="list-group list-group-flush" *ngIf="wettenAkzeptiert.length > 0; else noAccepted">
-      <li class="list-group-item" *ngFor="let wette of wettenAkzeptiert">
-        <strong>Spiel:</strong> {{ wette.match }} |
-        <strong>Von:</strong> {{ wette.username }} |
-        <strong>Betrag:</strong> {{ wette.montant }} THMCoins |
-        <strong>Quote:</strong> {{ wette.cote }}
+      <li
+        class="list-group-item d-flex justify-content-between align-items-start"
+        *ngFor="let wette of wettenAkzeptiert"
+      >
+        <div>
+          <strong>{{ wette.match }}</strong><br />
+          <small>
+            Von: <strong>{{ wette.username }}</strong> |
+            Betrag: <strong>{{ wette.montant }} THMCoins</strong> |
+            Quote: <strong>{{ wette.cote }}</strong>
+          </small>
+        </div>
+        <div class="text-end">
+          <!-- 🔁 Bouton Zurückziehen -->
+          <button
+            class="btn btn-outline-danger btn-sm"
+            (click)="zurueckziehen(wette)"
+          >
+            <i class="bi bi-arrow-counterclockwise"></i> Zurückziehen
+          </button>
+        </div>
       </li>
     </ul>
     <ng-template #noAccepted>

@@ -1,42 +1,7 @@
 <div class="container my-5">
-
   <h2 class="fw-bold text-primary mb-4">Willkommen auf Ihrem Dashboard</h2>
 
-  <!-- Community-Status -->
-  <div class="card border-info mb-4">
-    <div class="card-body">
-      <h5 class="card-title">Community-Status</h5>
-
-      <div *ngIf="hasCommunity">
-        <p class="text-success mb-0">Sie gehören bereits zu einer lokalen Community.</p>
-      </div>
-
-      <div *ngIf="!hasCommunity && !communityRequestSent && !showJoinForm">
-        <p class="text-warning">Sie gehören derzeit keiner Community an.</p>
-        <button class="btn btn-outline-info" (click)="requestJoinCommunity()">Beitrittsanfrage senden</button>
-      </div>
-
-      <div *ngIf="showJoinForm && !communityRequestSent">
-        <form [formGroup]="joinForm" (ngSubmit)="envoyerDemande()">
-          <div class="row g-2">
-            <div class="col-md-6"><input class="form-control" formControlName="vorname" placeholder="Vorname"></div>
-            <div class="col-md-6"><input class="form-control" formControlName="nachname" placeholder="Nachname"></div>
-            <div class="col-md-6"><input class="form-control" formControlName="strasse" placeholder="Straße"></div>
-            <div class="col-md-3"><input class="form-control" formControlName="hausnummer" placeholder="Hausnummer"></div>
-            <div class="col-md-3"><input class="form-control" formControlName="plz" placeholder="PLZ"></div>
-            <div class="col-md-6"><input class="form-control" formControlName="stadt" placeholder="Stadt"></div>
-            <div class="col-12 text-end"><button class="btn btn-success" type="submit">Senden</button></div>
-          </div>
-        </form>
-      </div>
-
-      <div *ngIf="communityRequestSent">
-        <p class="text-info mb-0">📨 Ihre Anfrage wurde gesendet. Bitte warten Sie auf die Genehmigung.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- 💰 Solde -->
+  <!--  Solde -->
   <div class="card border-primary mb-4">
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-center">
@@ -47,7 +12,6 @@
         <button class="btn btn-outline-primary" (click)="acheterTHMCoins()">THMCoins kaufen</button>
       </div>
 
-      <!-- 🛒 Formulaire d'achat -->
       <div *ngIf="showBuyForm" class="mt-4">
         <p class="fw-bold">💸 Wählen Sie ein Paket:</p>
         <div class="row g-2">
@@ -62,7 +26,7 @@
     </div>
   </div>
 
-  <!-- 📅 Veranstaltungen -->
+  <!--  Veranstaltungen -->
   <div class="card border-primary mb-4">
     <div class="card-body">
       <h5 class="card-title">Bevorstehende Veranstaltungen</h5>
@@ -75,20 +39,34 @@
     </div>
   </div>
 
-  <!-- 🎯 Wettanfrage erstellen -->
+  <!--  Wettanfrage erstellen -->
   <div class="card border-primary mb-4">
     <div class="card-body">
       <h5 class="card-title">Wettanfrage erstellen</h5>
       <form class="row g-3" (ngSubmit)="creerDemandePari()" [formGroup]="betForm">
-        <div class="col-md-12">
+        <div class="col-md-6">
+          <select class="form-select" formControlName="categorie">
+            <option value="" disabled selected>Sportart wählen</option>
+            <option value="Fußball">⚽ Fußball</option>
+            <option value="Basketball">🏀 Basketball</option>
+            <option value="Tennis">🎾 Tennis</option>
+            <option value="Handball">🯎 Handball</option>
+            <option value="eSport">🎮 eSport</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
           <input type="text" class="form-control" formControlName="match" placeholder="Spielname (RB Leipzig vs Frankfurt)">
         </div>
+
         <div class="col-md-6">
           <input type="number" class="form-control" formControlName="montant" placeholder="Betrag (THMCoins)">
         </div>
+
         <div class="col-md-6">
           <input type="text" class="form-control" formControlName="cote" placeholder="Vorgeschlagene Quote (z.B. 1:2)">
         </div>
+
         <div class="col-12 text-end">
           <button type="submit" class="btn btn-primary">Erstellen</button>
         </div>
@@ -96,7 +74,7 @@
     </div>
   </div>
 
-  <!-- 🧾 Wettanfragen Ihrer Community -->
+  <!--  Wettanfragen Ihrer Community -->
   <div class="card border-primary mb-4" *ngIf="demandesDePari.length > 0">
     <div class="card-body">
       <h5 class="card-title">Wettanfragen Ihrer Community</h5>
@@ -104,17 +82,46 @@
         <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let demande of demandesDePari">
           <div>
             <strong>{{ demande.username }}</strong> — {{ demande.match }}<br>
-            <small>{{ demande.montant }} vs {{ demande.cote }}</small>
+            <small>
+              <span class="badge bg-secondary me-2">{{ demande.categorie }}</span>
+              {{ demande.montant }} Coins | Quote: {{ demande.cote }}
+            </small>
           </div>
-          <div>
-            <button class="btn btn-success btn-sm me-2" (click)="accepterPari(demande)">Akzeptieren</button>
-            <button class="btn btn-outline-primary btn-sm" (click)="negocierPari(demande)">Verhandeln</button>
+          <div *ngIf="!istMeineWette(demande)">
+            <button class="btn btn-success btn-sm me-2" (click)="accepterPari(demande)"
+                    *ngIf="!istStatus(demande, 'akzeptiert')">Akzeptieren</button>
+            <button class="btn btn-outline-primary btn-sm" (click)="negocierPari(demande)"
+                    *ngIf="!istStatus(demande, 'verhandlung')">Verhandeln</button>
+            <span class="badge bg-success" *ngIf="istStatus(demande, 'akzeptiert')">Akzeptiert</span>
+            <span class="badge bg-warning text-dark" *ngIf="istStatus(demande, 'verhandlung')">Bitte um Verhandlung</span>
           </div>
         </li>
       </ul>
     </div>
   </div>
 
-  <a routerLink="/meine-wetten" class="btn btn-outline-secondary">Meine Wetten</a>
+ <!--  Meine Wetten & Community Link -->
+<div class="row mt-4">
+  <div class="col text-start">
+    <a routerLink="/meine-wetten"
+       class="btn text-white px-4"
+       style="background-color: #6c757d; border-color: #6c757d;">
+      <i class="bi bi-folder2-open me-1"></i> Meine Wetten
+    </a>
+  </div>
+  <div class="col text-end">
+    <a
+      [routerLink]="isLCB ? '/lcb-dashboard' : null"
+      [class.disabled]="!isLCB"
+      [attr.aria-disabled]="!isLCB"
+      class="btn text-white px-4 d-inline-flex align-items-center gap-2"
+      style="background-color: #0dcaf0; border-color: #0dcaf0; pointer-events: {{ isLCB ? 'auto' : 'none' }}"
+      [attr.title]="!isLCB ? 'Nur für LCBs verfügbar' : null">
+      <i class="bi bi-person-gear fs-5"></i>
+      <span>Community betreten</span>
+    </a>
+  </div>
+</div>
+
 
 </div>

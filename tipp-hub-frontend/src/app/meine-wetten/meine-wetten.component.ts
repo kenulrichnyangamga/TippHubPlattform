@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { WettenService } from '../services/wetten.service'; 
 
 @Component({
   selector: 'app-meine-wetten',
@@ -12,16 +13,47 @@ import { RouterModule } from '@angular/router';
 export class MeineWettenComponent implements OnInit {
 
   username = 'alex22';
+  mesWetten: any[] = [];
+  wettenAkzeptiert: any[] = [];
 
-  mesWetten = [
-    { match: 'PSG vs Barça', montant: 20, cote: '1:2', acceptePar: 'marie34' },
-    { match: 'Bayern vs Dortmund', montant: 15, cote: '1:1.5', acceptePar: null }
-  ];
+  selectedWette: any = null;
 
-  wettenAkzeptiert = [
-    { username: 'paul99', match: 'Real vs Milan', montant: 10, cote: '1:1.7' },
-    { username: 'tom23', match: 'Marseille vs Lille', montant: 8, cote: '1:1.8' }
-  ];
+  constructor(private wettenService: WettenService) {} 
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.wettenService.wetten$.subscribe((list) => {
+      
+      this.mesWetten = list.filter(w => w.username === this.username);
+    });
+
+    // Exemple fixe pour "acceptées"
+    this.wettenAkzeptiert = [
+      { username: 'paul99', match: 'Real vs Milan', montant: 10, cote: '1:1.7' },
+      { username: 'tom23', match: 'Marseille vs Lille', montant: 8, cote: '1:1.8' }
+    ];
+  }
+
+  anzeigenDetails(wette: any): void {
+    this.selectedWette = wette;
+    const modal = document.getElementById('detailsModal');
+    if (modal) {
+      const modalBootstrap = new (window as any).bootstrap.Modal(modal);
+      modalBootstrap.show();
+    }
+  }
+
+  loeschenWette(index: number): void {
+    const confirmation = confirm('Möchten Sie diese Wette wirklich löschen?');
+    if (confirmation) {
+    
+      this.wettenService.removeWette(index);
+    }
+  }
+  zurueckziehen(wette: any): void {
+  const index = this.wettenService.findIndex(wette);
+  if (index !== -1) {
+    this.wettenService.zurueckziehen(index);
+  }
+}
+
 }

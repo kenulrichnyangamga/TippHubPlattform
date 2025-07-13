@@ -10,6 +10,7 @@ import { DashboardOverviewComponent } from './thb-dashboard/dashboard-overview/d
 import { ThbDashboardLayoutComponent } from './thb-dashboard/thb-dashboard-layout/thb-dashboard-layout.component';
 import { DashboardPusComponent } from './dashboard-pus/dashboard-pus.component';
 import { MeineWettenComponent } from './meine-wetten/meine-wetten.component';
+import { LcbDashboardComponent } from './lcb-dashboard/lcb-dashboard.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'startseite', pathMatch: 'full' },
@@ -29,7 +30,8 @@ export const routes: Routes = [
        ]
     },
     {path: 'dashboard-pus', component: DashboardPusComponent},
-     { path: 'meine-wetten', component: MeineWettenComponent }
+     { path: 'meine-wetten', component: MeineWettenComponent },
+     {path: 'lcb-dashboard', component: LcbDashboardComponent}
   
 ];
 
