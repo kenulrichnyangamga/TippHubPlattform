@@ -392,3 +392,35 @@ juil. 13, 2025 11:03:57 PM com.tipphub.MainVerticle lambda$start$0
 INFO: ✅ Connected to TippHub database.
 juil. 13, 2025 11:03:57 PM com.tipphub.MainVerticle lambda$setupRoutes$4
 INFO: 🚀 TippHub backend running on port 8888
+juil. 13, 2025 11:53:24 PM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 13, 2025 11:53:24 PM com.tipphub.MainVerticle lambda$setupRoutes$4
+INFO: 🚀 TippHub backend running on port 8888
+juil. 14, 2025 12:12:56 AM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 14, 2025 12:12:56 AM com.tipphub.MainVerticle lambda$setupRoutes$4
+INFO: 🚀 TippHub backend running on port 8888
+juil. 14, 2025 12:16:48 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$19
+INFO: ✅ Tarifs chargés : 3 ligne(s)
+juil. 14, 2025 12:17:35 AM com.tipphub.MainVerticle lambda$getAllTHMCoinTarifs$19
+INFO: ✅ Tarifs chargés : 3 ligne(s)
+juil. 14, 2025 12:17:53 AM com.tipphub.MainVerticle createTHMCoinTarif
+INFO: 📥 JSON reçu : {
+  "preis_euro" : 10,
+  "preis_coins" : 2000,
+  "gueltig_ab" : "55555555"
+}
+juil. 14, 2025 12:17:53 AM com.tipphub.MainVerticle lambda$createTHMCoinTarif$24
+SEVERE: ❌ Erreur SQL INSERT : (conn=62) Incorrect date value: '55555555' for column `tipphub`.`thm_coins_tarif`.`gueltig_ab` at row 1
+juil. 14, 2025 12:18:10 AM com.tipphub.MainVerticle createTHMCoinTarif
+INFO: 📥 JSON reçu : {
+  "preis_euro" : 10,
+  "preis_coins" : 2000,
+  "gueltig_ab" : "555544"
+}
+juil. 14, 2025 12:18:11 AM com.tipphub.MainVerticle lambda$createTHMCoinTarif$24
+SEVERE: ❌ Erreur SQL INSERT : (conn=62) Incorrect date value: '555544' for column `tipphub`.`thm_coins_tarif`.`gueltig_ab` at row 1
+juil. 14, 2025 12:51:18 AM com.tipphub.MainVerticle lambda$start$0
+INFO: ✅ Connected to TippHub database.
+juil. 14, 2025 12:51:18 AM com.tipphub.MainVerticle lambda$setupRoutes$4
+INFO: 🚀 TippHub backend running on port 8888

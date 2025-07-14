@@ -459,6 +459,7 @@ private void deleteTHMCoinTarif(RoutingContext ctx) {
     }
 
     private void handleLogin(RoutingContext ctx) {
+        System.out.println("Login attempt: " + ctx.getBodyAsString());
     JsonObject body = ctx.getBodyAsJson();
     if (body == null) {
         ctx.response().setStatusCode(400).end("Requête invalide (pas de JSON reçu)");
